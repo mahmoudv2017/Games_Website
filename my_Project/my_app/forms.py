@@ -3,12 +3,9 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.core import validators
 from my_app.models import User_Info,Comments,Cart
-from emoji_picker.widgets import EmojiPickerTextInputAdmin, EmojiPickerTextareaAdmin
 
 
-class YourModelForm(forms.ModelForm):
-    short_text = forms.CharField(widget=EmojiPickerTextInputAdmin)
-    long_text = forms.CharField(widget=EmojiPickerTextareaAdmin)
+
 
 class comments_form(forms.ModelForm):
 

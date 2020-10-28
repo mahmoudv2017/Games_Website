@@ -1,0 +1,165 @@
+{% extends 'nav.html' %}
+{% block body_block %}
+<div>
+
+
+
+
+
+
+
+
+<div class="indexer">
+    <div class="indecer2">
+        <div class="swiper-container lander">
+            <div class="swiper-wrapper" >
+    
+                {% for x in data %}
+                    {% if x.background_image != null %}
+                   
+                        <div class="swiper-slide" onclick="clicked('{{x.slug}}')" on style="background-image:url({{x.background_image}})">
+                        
+                            <!-- <p style="    position: relative;
+                            text-align: center;
+                            left: 4%;
+                            bottom: -65%;
+                            color: white;
+                            font-size: large;
+                            ">{{x.name}}</p> -->
+                        </div>
+                        
+                    {% endif %}
+                    
+                {% endfor %}
+    
+            </div>
+    
+        </div>
+    
+    </div>
+</div>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <br>
+        <hr>
+        <br>
+        <h1 class="headd">MOST ANTCIPATED</h1>
+        <div class="owl-carousel game_pc owl-theme" style="width: 96%;">
+    
+            {%for x in most_anti_data%}
+               
+                <div class="item" style>
+                    <a href="game={{x.slug}}">
+                    <img style="height: 190px;" src="{{x.background_image}}" alt="">
+                    </a>
+                    
+                </div>
+               
+            {%endfor%}
+            
+        </div>
+
+
+        <br>
+        <hr>
+        <br>
+        <h1 class="headd">Highest Rated GAMES</h1>
+        <div class="owl-carousel game_pc owl-theme" style="width: 96%;">
+    
+            {%for x in hight_rating%}
+            {% for y in x.platforms %}
+       
+                {% if  y.platform.name == "PC" %}
+                 <div class="item">
+                    <a href="game={{x.slug}}">
+                    <img style="height: 190px;" src="{{x.background_image}}" alt="">
+                    </a>
+                        
+                </div>
+                {% endif %}
+            {% endfor %}
+                
+                   
+           
+            {%endfor%}
+            
+        </div>
+
+
+        
+
+
+        
+
+        <br>
+        <hr>
+        <br>
+        <h1 class="headd">Most Popular GAMES</h1>
+        <div class="owl-carousel game_pc owl-theme" style="width: 96%;">
+    
+            {%for x in most_popular%}
+            {% for y in x.platforms %}
+       
+                {% if  y.platform.name == "PC" %}
+                 <div class="item" style>
+                    <a href="game={{x.slug}}">
+                    <img style="height: 190px;" src="{{x.background_image}}" alt="">
+                    </a>
+                </div>  
+                {% endif %}
+            {% endfor %}
+                
+                   
+           
+            {%endfor%}
+            
+        </div>
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+{% endblock body_block %}

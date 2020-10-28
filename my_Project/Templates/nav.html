@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project</title>
+    
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" />
+
+    <link rel="stylesheet" type="text/css" href= "{% static 'star-rating-svg.css' %}">
+    <script src="{% static 'all.js' %}"></script>
+    <link rel="stylesheet" href= "{% static 'main.css' %}">
+    <link rel="stylesheet" href= "{% static 'swiper.css' %}">
+    {% comment %} <link rel="stylesheet" href= "{% static 'emoji.css' %}"> {% endcomment %}
+    
+
+
+
+
+    
+  
+</head>
+<body  >  
+
+
+ <div class="loginner">
+    
+    <form  action="/login" method="post" >
+        {% csrf_token %}
+        <h1 style="text-align: center; margin: 4% auto;">Login</h1>
+        <div>
+            <input type="text" style="width: 100%;" name="username" >
+           
+        </div>
+        <br>
+        <div>
+            <input style="width: 100%;" type="password" name="password" >
+        </div>
+
+        <a href="/register">Dont Have an account Register Here</a>
+        <button class="btn btn-primary" style="width: 100%; margin-bottom: 4%;">submit</button>
+
+    </form>
+ </div>
+
+
+
+<nav class="navbar navbar-expand-lg navbar-dark first">
+
+    <a class="navbar-brand brand" style="color:white;" href="/">Technincalities</a>
+   
+
+    
+        <span class="collabser navbar-nav ml-auto" onclick="openlister('.lister')" >&#9776; </span>
+        <div class="lister" >
+            <a class="nav-link" style="color:grey;" href="/cart/id=home">Cart</a>
+            <hr color="white">
+            {% if user_profile.profile_image %}
+            <p class="nav-link" >{{ user.username }}</p>
+            <hr color="white">
+            <a class="nav-link" href="/logout">logout</a>
+            {% else %}
+            <a class="nav-link" href="/register">Register</a>
+            <hr color="white">
+            <a class="nav-link" href="/login">login</a>
+            {% endif %}
+
+
+        </div>
+ 
+    <ul class = 'navbar-nav ml-auto original_nav' >
+      
+    
+           
+            {% if user.is_authenticated %}
+                  {% if user_profile.profile_image %}
+                <span class=" navbar-nav ml-auto" onclick="openlister('.lister2')" > <img class="nav-link" style="border-radius: 50%; height: 50px; width: 50px;" src="/media/{{ user_profile.profile_image }} "  > </span>
+               
+                {% else %}
+                <span class=" navbar-nav ml-auto" onclick="openlister('.lister2')" > <img class="nav-link" style="border-radius: 50%; height: 50px; width: 50px;" src="/media/profile_image/alt.png "  > </span>
+               
+                {% endif %}
+                 <div class="lister2" >
+                    <a class="nav-link" href="/logout">logout</a>
+                  
+                </div>
+
+            {% else %}
+             <span class=" navbar-nav ml-auto" onclick="openlister('.lister2')" > <img class="nav-link" style="border-radius: 50%; height: 50px; width: 50px;" src="/media/profile_image/alt.png "  > </span>
+                <div class="lister2" >
+                    <a class="nav-link" href="/register">Register</a>
+                    <hr color="white">
+                    <a class="nav-link" href="/login">login</a>
+                </div>
+            {% endif %}
+              
+               
+           
+                
+                
+            </li>
+       
+        
+    </ul>
+
+
+</nav>
+
+<nav class="navbar navbar-expand-lg navbar-dark second " >
+    <span class="spin_me" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
+    <form onclick="search_me()" style="position: sticky; margin: 0 auto; width: 60%;" action="http://127.0.0.1:8000/" class="form-inline my-2 my-lg-0 target" method="GET">
+        <button  class=" btn btn-success my-2 my-sm-0" style="position: relative; right: -99%;" type="submit">Search</button>
+        <input style="width: 92%; right: 0%;  position: relative;" class="form-control mr-sm-2 search_text"  type="search" aria-label="Search" autocomplete="on">
+        
+        
+    </form>
+
+
+
+    {% comment %} <div class="side_menuu"  style="   
+
+    position: absolute;
+    width: 6%;
+    background-color: grey;
+    left: 32%;
+    display: none;
+    color: white;
+    top: 313%;"
+    
+    >
+        <a class="dropdown-item">Platform</a>
+        <a class="dropdown-item" >Genras</a>
+        <a class="dropdown-item" >Stores</a>
+        <a class="dropdown-item">Publishers</a>
+    </div> {% endcomment %}
+
+
+
+</nav>
+
+
+
+<div class="parent" >
+        
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <div>
+
+               <a style="font-size: 45px; color: white;"  href="/type=games/page=1">Home</a>
+            <p></p>
+
+            <h1 style="color: white; font-size: 1.5rem;">Browse</h1>
+          
+                <a onmouseover="styyler(0)"  onmouseout="styyler_off(0)" href="/type=platforms/page=0" >
+                    
+                    <div>
+                        <i class="ssss far fa-star"></i> 
+                        <p style="display: inline;
+                        position: absolute;
+                        left: 31%;"> Platforms </p>
+                    </div>
+
+
+
+                    <div style=" transform: scale(0.88);  "> 
+                        <a onmouseover="styyler(1)"  onmouseout="styyler_off(1)" href="/search=18/page=platforms" >
+                        <div>
+                            <i class="ssss fab fa-playstation"></i> 
+                            <p style="display: inline;
+                            position: absolute;
+                            left: 31%;"> PS4 </p>
+                        </div>
+
+                        <a onmouseover="styyler(2)"  onmouseout="styyler_off(2)" href="/search=4/page=platforms" >
+                        <div>
+                            <i class="ssss fab fa-steam"></i> 
+                            <p style="display: inline;
+                            position: absolute;
+                            left: 31%;"> PC </p>
+                        </div>
+
+                        <a onmouseover="styyler(3)"  onmouseout="styyler_off(3)" href="/search=7/page=platforms" >
+                        <div>
+                            <i class="ssss far fa-star"></i> 
+                            <p style="display: inline;
+                            position: absolute;
+                            left: 31%;"> Switch </p>
+                        </div>
+
+                        <a onmouseover="styyler(4)"  onmouseout="styyler_off(4)" href="/search=1/page=platforms" >
+                        <div>
+                            <i class="ssss fab fa-xbox"></i> 
+                            <p style="display: inline;
+                            position: absolute;
+                            left: 31%;"> Xbox One </p>
+                        </div>
+
+                    </div>
+                  
+                   </a>
+
+                <a onmouseover="styyler(5)"  onmouseout="styyler_off(5)" href="/type=stores/page=0" >
+                    
+                    <div>
+                        <i class="fas fa-american-sign-language-interpreting ssss"></i>
+                        <p style="display: inline;
+                        position: absolute;
+                      
+                        left: 31%;"> Stores </p>
+                    </div>
+                  
+                   </a>
+        
+
+        
+          
+                <a onmouseover="styyler(6)"  onmouseout="styyler_off(6)" href="/type=genres/page=0" >
+                    
+                    <div>
+                        <i class="fas fa-cat ssss"></i>
+                        <p style="display: inline;
+                        position: absolute;
+                        left: 31%;"> Genre </p>
+                    </div>
+                  
+                   </a>
+      
+       
+        
+                <a onmouseover="styyler(7)"  onmouseout="styyler_off(7)" href="/type=developers/page=0" >
+                    
+                    <div>
+                        <i class="fas fa-donate ssss"></i>
+                        <p style="display: inline;
+                        position: absolute;
+                        left: 31%;"> Publishers </p>
+                    </div>
+                  
+                   </a>
+            
+            <p></p>
+
+            <h1 class="my_head">New Releasese</h1>
+            <a onmouseover="styyler(8)"  onmouseout="styyler_off(8)" href="/type=last_week/page=0" >
+                    
+                <div>
+                    <i class="fas fa-headphones-alt ssss"></i> 
+                    <p style="display: inline;
+                    position: absolute;
+                    left: 31%;"> Last Week </p>
+                </div>
+              
+               </a>
+          
+            <a onmouseover="styyler(9)"  onmouseout="styyler_off(9)" href="/type=last_month/page=0" >
+                    
+                <div>
+                    <i class="far fa-star ssss"></i> 
+                    <p style="display: inline;
+                    position: absolute;
+                    left: 31%;"> Last Month </p>
+                </div>
+              
+               </a>
+            </div>
+         
+            
+      </div>
+      
+
+
+
+
+    <div class="group2" >
+    
+        {% block body_block %}
+        
+        {% endblock body_block %}
+        
+    </div>
+  
+
+  
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="{% static 'landing.js' %}"></script>
+<script src="{% static 'nav.js' %}"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js" integrity="sha512-gY25nC63ddE0LcLPhxUJGFxa2GoIyA5FLym4UJqHDEMHjp8RET6Zn/SHo1sltt3WuVtqfyxECP38/daUc/WVEA==" crossorigin="anonymous"></script>
+
+
+<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+
+<script src="{% static 'jquery.star-rating-svg.js' %}"></script>
+<script src="{% static 'my_jquery.js' %}"></script>
+
+<script src="{% static 'rating.min.js' %}"></script>
+<script src="{% static 'game_details.js' %}"></script>
+
+
+<script src="{% static 'home.js' %}"></script>
+</body>
+</html>

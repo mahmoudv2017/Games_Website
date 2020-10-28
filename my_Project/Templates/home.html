@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+{% extends 'nav.html' %}
+
+{% block body_block %}
+
+    <h1 style="text-align: center; margin: 0 auto; border-radius: 20px; width: 50%; margin-top: 4%; margin-bottom: 3%; text-transform: uppercase;">{{type}}</h1>
+
+{% if type == "games" %}
+<div style="
+margin-left: 5%;
+background-color: hsl(0deg 0% 0% / 5%);
+border-radius: 14px;
+padding: 4px;
+text-align: center;
+width: 19%;">
+
+    <label for="order">Choose The Order</label>
+    <select style="margin-bottom: 2%; margin-top: 2%; border: none; background-color: hsla(0,0%,100%,.07);" name="order" onclick="order_me()">
+        <option value="ee">Select Option</option>
+        <option value="rating">By Rating</option>
+        <option value="released">By Release Date</option>
+        <option value="added">By Popularity</option>
+    </select>
+</div>
+   
+{% endif %}
+    
+
+    <div class=" index">
+        {% if names %}
+            
+            <div class="row">
+            {% for x in names.results %}
+                
+                    <div class="col-lg-3 col-md-5 columnn">
+                        {% if type != "games" %}
+                        <a style="cursor: pointer;" href="/search={{x.id}}/page={{type}}" class="not-hover">
+                            <div class="carder"  >
+                         
+                            
+                                <div class="image_of_card"   style="background: url({{ x.image_background }});
+                                    background-size: cover; 
+                                    grid-area: image;
+                                    border-top-right-radius: 15px; 
+                                    border-top-left-radius: 15px;">
+                                </div> 
+
+                                <div class="image_of_card"   style="background: black;
+                                    background-size: cover; 
+                                    grid-area: image;
+                                    opacity: .5;
+                                    border-top-right-radius: 15px; 
+                                    border-top-left-radius: 15px;">
+                                </div> 
+
+
+                                <div class="card-text-area">
+                                    <h4 class="header_of_platform" >{{ x.name }}</h4>
+                                    <div class="card_data " style=" display: grid;  grid-template-columns: 70% 30%;">
+                                        
+                                    
+                                        <div class="data_title" style="padding-left: 8%; text-align: left;">
+                                            <p >  No. Of Games </p>
+                                            <hr  width="121%">
+                                            {% for y in x.games %}
+                                            {% if forloop.counter <= 2 %}
+                                         
+
+                                                <p  style="  font-size: small; height:30px;">{{y.name}}</p>
+                                          
+                                            {% endif %}
+                                               
+                                            {% endfor %}
+                                        
+                                        </div>
+                                       
+                                        <div class="genre_card" style=" margin-left: 20%; text-align: center; padding-right: 4%;">
+                                            <p  > {{x.games_count}}</p>
+                                            <hr>
+                                          
+                                            
+                                            <p style="padding-left: 6%;">
+                                                {% for y in x.games %}
+                                                 {% if forloop.counter <= 2 %}
+                                                    <p style="  height: 30px;">{{y.added}}</p>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </p>
+                                           
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                            {% else %}
+                          
+                            <a style="cursor: pointer;" href="/game={{x.slug}}" class="not-hover">
+                                <div  class="carder"  >
+                                    <!-- onmouseover="play_me({{forloop.counter}})" onmouseout="pause_me({{forloop.counter}})" -->
+                                  {% if x.background_image != null %}
+                                <div onmouseover="play_me({{forloop.counter}} , this)" onmouseout="pause_me({{forloop.counter}})" class="image_of_card"   style="
+                                        
+                                background: url({{ x.background_image }});
+                                background-size: cover; 
+                                grid-area: image;
+                                overflow: hidden;
+                                z-index: 1;
+                                border-top-right-radius: 15px; 
+                                border-top-left-radius: 15px;">
+
+                            {% if x.clip != null %}
+                                    <video class="fideo" src="{{x.clip.clips.320}}"  muted ></video>
+                                {% else %}
+                                {% if x.background_image != null %}
+                                    <img style="width: 100%; height: 100%;" class="fideo" src="{{ x.background_image }}"   >
+                                {% else %}
+                                    <img style="width: 100%; height: 100%;" src = "url(/media/last.jpg)" class="fideo" >
+                                {% endif %}
+                            {% endif %}
+
+                                </div> 
+
+                                {% else %}
+                                    <div class="image_of_card"   style="background: url(/media/last.jpg);
+                                                    background-size: cover; 
+                                                    grid-area: image;
+                                    
+                                                
+                                                    border-top-right-radius: 15px; 
+                                                    border-top-left-radius: 15px;">
+                                                    
+                                                    <img class="fideo" src="http://sirigallery.com/static/asset/images/novideo.png"   >
+                                                
+                                                </div> 
+
+                                    {% endif %}
+                              
+
+
+
+                                <div class="card-text-area">
+                                    <h4 style="margin-top: 2%;  height: 26%;" >{{ x.name }}</h4>
+                                    <div class="card_data " style="margin-top: 9%; display: grid; grid-template-columns: 50% 50%;">
+                                        
+                                    
+                                        <div class="data_title" style="padding-left: 4%; text-align: left;">
+                                            <p > Release Date </p>
+                                            <p > Genre </p>
+                                        </div>
+                                       
+                                        <div class="genre_card" style=" margin-left: 20%; text-align: center; padding-right: 4%;">
+                                            <p  > {{x.released}}</p>
+                                        
+                                            <p style="padding-left: 6%;">
+                                                {% for x in x.genres %}
+                                                    <span >{{x.name}} </span>
+                                                    
+                                                {% endfor %}
+                                            </p>
+                                           
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </a>
+
+                            {% endif %}
+                           
+
+                       
+                                
+                               
+                            {% comment %} <div class="clibs_of_home" >
+                                onmouseover="playvideo({{ forloop.counter }})" onmouseout="pausevideo({{ forloop.counter }})"
+                                <video  class="videor" src="{{x.clip.clips.full}}" poster="{{ x.background_image }}" muted ></video>
+                            </div> {% endcomment %}
+                                
+                                
+                            
+                        
+                    </div>
+                
+            {% endfor %}
+            
+            </div>
+        {% endif %}
+
+
+    </div>
+    <hr>
+    {% if names.next != null %}
+    <!-- href="/type={{type}}/page=more" -->
+        <a  onclick="give_me_more('{{type}}')" style="position: relative; left: 50%;" class="btn btn-dark">Show More</a>
+    {% endif %}
+   
+            
+
+
+
+
+
+{% endblock body_block %}

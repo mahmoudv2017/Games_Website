@@ -1,0 +1,52 @@
+{% extends 'nav.html' %}
+{% block body_block %}
+<div style=" padding-bottom: 12.5%; margin-top:5%;  width:max-content ">
+
+    {% for x in data %}
+
+        <div class="rower" style="display: grid; grid-template-columns: 400px 80%; transition: .7s all;">
+            <div class="column_1">
+                <img src="{{ x.game_image }}" style="width:100%; border-radius: 15px; " alt="">
+                <br><br>
+                <hr style="color: black;" width="400%">
+            </div>
+    
+            <div class="column_2" style="margin-left:5%;">
+                
+    
+                <h1 class="title">{{x.title}}</h1>
+                <br>
+                <a href="/cart/id={{x.id}}/delete"  onclick="remove_rec({{forloop.counter}})" class="btn btn-danger" >delete</a>
+
+                <h2>Price : {{x.price}}</h2>
+    
+            </div>
+        </div>
+       
+        
+       
+
+    {% endfor %}
+
+    <div >
+        <h1 style="text-align: right;">Subtotal : {{count}}</h1>
+    </div>
+ 
+        
+    <script>
+        function remove_rec(index){
+            console.log("before and agfter")
+            var diver =  document.querySelectorAll(".rower")[index-1].classList.toggle("swiper")
+ 
+            setInterval(function(){
+                console.log("asd")
+                document.querySelectorAll(".rower")[index-1].style.height = parseInt(document.querySelectorAll(".rower")[index-1].clientHeight)-2
+                console.log(document.querySelectorAll(".rower")[index-1].style.height)
+            },300)
+        
+        }
+            
+    </script>
+   
+</div>
+{% endblock body_block %}

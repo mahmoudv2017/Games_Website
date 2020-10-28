@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+{% extends 'game_details.html' %}
+{% block comment_block %}
+
+
+
+
+
+
+
+
+
+
+
+            
+<div class="comments">
+            
+            
+    <h3 style="margin-bottom: 4%; ">Comments</h3>
+
+    <form action="/id=grand-theft-auto/AddComment/NewComment/reply=false" method="post" style="display: grid; grid-template-columns: 70px 70%">
+        {% csrf_token %}
+
+        <div style="width: 4%;" >
+                {% if user_profile.profile_image %}
+                    <img src="/media/{{ user_profile.profile_image }}" style="height: 50px; width: 50px; border-radius: 50%;" >
+                {% else %}
+                    <img src="/media/profile_image/alt.png" style="height: 50px; width: 50px; border-radius: 50%;" >
+                {% endif %}
+        </div>
+        <div  class="form-group">
+            <input  type="text" required name="comment" style=" width: 100%;  font-family: cursive; font-size: larger;" class="form-control" placeholder="Type a Comment" >
+            <p style="height: 1%;"></p>
+            {% if user.is_authenticated %}
+                <button  class="btn btn-primary " style="float: right; " >Add a Comment</button>
+            {% else %}
+                <button  class="btn btn-primary  " style="float: right; " disabled >You Have to login </button>
+            {% endif %}
+        </div>
+        
+        
+    </form>
+
+
+</div>
+    
+
+
+
+{% if comments %}
+    {% for x in comments %}
+
+        
+        <div class="buttons_comments" style="display: grid; grid-template-columns: 70px 70%;">
+
+            <div >
+                {% if x.profile_image %}
+                    <img src="/media/{{ x.profile_image }}" style="height: 50px; width: 50px; border-radius: 50%;" >
+                {% else %}
+                    <img src="/media/profile_image/alt.png" style="height: 50px; width: 50px; border-radius: 50%;" >
+                {% endif %}
+                
+                
+            </div>
+            
+        
+            
+            <div>
+                <div style="display: flex; ">
+                    <h4 style="margin-right: 2%;">{{x.user.username}}</h4> <p style="margin-top: .5%; width: fit-content;"> {{x.date_added}}</p>
+                    
+                    <div class="btn-group" style="    margin-left: 12%;">
+                   
+                        {% if user_profile.user == x.user %}
+                             <p type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v" ></i>
+                            </p>
+                        {% endif %}
+                       
+                        <div class="dropdown-menu" style="width: 28%;">
+                        
+                            <a onclick= "edit_comment('{{ forloop.counter }}')" class="btn btn-sm btn-success dropdown-item">Edit Comment</a>
+                            <a href="/id={{ data.slug }}/DeleteComment/{{ x.id }}/reply=false"   class="btn btn-sm btn-outline-danger dropdown-item">Delete Comment</a>
+            
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                    <br><br>
+                </div>
+                
+
+
+<div >
+    <p class="comment_1" >{{x.comment}}</p>
+
+<div style="display: flex;">
+<div class="comment_access">
+    <i onclick="like('up')" class="far fa-thumbs-up"></i>
+</div>
+<div  class="comment_access"> 
+    <i onclick="like('down')" class="far fa-thumbs-down"></i>
+</div>
+<div>
+    <button class="btn btn-dark" onclick="add_reply({{forloop.counter}})">Reply</button>
+</div>
+</div>
+
+<br>
+<div class="comment_reply hide"  >
+
+    <div style="TRANSFORM: scale(0.9);  display: grid;  grid-template-columns: 6% 76%;">
+        <div style=" width: 4%;" >
+            {% if user_profile.profile_image %}
+                <img src="/media/{{ user_profile.profile_image }}" style="height: 50px; width: 50px; border-radius: 50%;" >
+            {% else %}
+                <img src="/media/profile_image/alt.png" style="height: 50px; width: 50px; border-radius: 50%;" >
+            {% endif %}
+        </div>
+        <form action='/id={{ data.slug }}/EditComment/{{ x.id }}/reply={{ x.user.username }}' method='POST' style=' margin-bottom: 5%; width: 100%;' >
+            {% csrf_token %}
+
+            <input type='text'  name='comment' style=' margin-bottom: 1%; width: 100%;' class='form-control' placeholder='Type a Comment' id='id_comment' required >
+            
+            <button  class='btn btn-primary' style='float: right;' >Save</button>
+            <a  class='btn btn-primary' onclick="add_reply({{forloop.counter}})" style=' margin-right: 1%; float: right;' >Cancel</a>
+        </form>
+    </div>
+
+
+</div>
+
+{% if x.has_reply %}
+    <p id="reply_button" style="color: #3611e8; cursor: pointer;" onclick="view_replies({{forloop.counter}})">View Replies</p>
+{% endif %}
+
+
+
+<div class="replies" >
+
+
+{% for y in replies %}
+{% if y.parent_id == x.id %}
+
+    <div >
+        {% if y.profile_image %}
+            <img src="/media/{{ y.profile_image }}" style="height: 50px; width: 50px; border-radius: 50%;" >
+        {% else %}
+            <img src="/media/profile_image/alt.png" style="height: 50px; width: 50px; border-radius: 50%;" >
+        {% endif %}
+        
+    </div>
+
+    <div >
+        <p class="comment_1"><strong style="color: #3ea6ff;">@{{y.parent_username}}</strong>  {{y.reply}}</p>
+        <br><br>
+    </div>
+    
+{% endif %}
+{% endfor %}
+
+</div>
+
+
+
+
+
+
+
+
+    <div class="comment_former hide" >
+        <form action='/id={{ data.slug }}/EditComment/{{ x.id }}/reply=false' method='POST' style=' margin-bottom: 5%;' >
+        {% csrf_token %}
+
+        <input type='text'  name='comment' style=' width: 100%;' class='form-control' placeholder='Type a Comment' id='id_comment' required value="{{x.comment}}">
+
+        <button  class='btn btn-primary' style='float: right;' >Save</button>
+        <a  class='btn btn-primary' onclick=edit_comment({{forloop.counter}}) style=' margin-right: 1%; float: right;' >Cancel</a>
+        </form>
+
+    </div>
+
+</div>
+
+<hr>
+</div>
+
+</div>
+        
+        
+        
+    {% endfor %}
+{% endif %}
+</div>
+
+
+
+
+
+{% endblock comment_block %}

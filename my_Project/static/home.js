@@ -11,6 +11,7 @@ function give_me_more(key){
         url : "/type="+key+"/page=more",
         success : function(data){
             console.log(data)
+            $("body").html(data)
         }
     })
 }

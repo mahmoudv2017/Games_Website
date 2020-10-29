@@ -27,13 +27,43 @@
 
 
   }
-    function search_me(){
-        if(text.value != ""){
 
-            tar.action =  tar.action+"search=" + text.value + "/page=1"
+  $(".search_of_form").on("submit" , function(e){
+    e.preventDefault()
+    console.log(text.value)
+    $.ajax({
 
+        
+
+        type : "GET",
+        url : '/search='+text.value+"/page=1",
+        success:function(reponse){
+            console.log(reponse)
+            $("body").html(reponse)
         }
-    }
+        
+    })
+  })
+    // function search_me(){
+
+
+        
+    //     $.ajax({
+
+    //         type : "GET",
+    //         url : '/search='+text.value+"/page=1",
+    //         success:function(reponse){
+    //             console.log(reponse)
+    //         }
+            
+    //     })
+
+    //     if(text.value != ""){
+
+    //         tar.action =  tar.action+"search=" + text.value + "/page=1"
+
+    //     }
+    // }
 
 
     function myFunction() {

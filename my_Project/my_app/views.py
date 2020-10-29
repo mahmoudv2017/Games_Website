@@ -124,7 +124,7 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
         rendering_data["user_profile"] = User_Info.objects.filter(user = req.user).get() 
   
 
-    
+    print("the page num is" + page_num)
     
     if(page_num != 'more'):
         if(order != "nothing"):
@@ -151,8 +151,11 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
         url2 = data["next"]
         print("morerrrrr" + url2)
         reponse = urllib.request.urlopen(url2)
-        data = json.load(reponse)["results"]
-        return JsonResponse(data , safe = False)
+        data = json.load(reponse)
+        #return JsonResponse(data , safe = False)
+        rendering_data["names"] = data
+        rendering_data['type'] = value
+        return render(req,'home.html', rendering_data)
     
 
     if page_num == "1":
@@ -327,8 +330,9 @@ def new_comment(req,value,comment_id = '-1',title="" , reply="false"):
     if req.method == "POST":
         
         comment_form = comments_form(req.POST)
+      
         if comment_form.is_valid():
-            
+            print("ssss")
             if reply != "false":
             
                 Comments.objects.filter(id = comment_id).update(has_reply=True)
@@ -344,13 +348,18 @@ def new_comment(req,value,comment_id = '-1',title="" , reply="false"):
                 comment = Comments.objects.filter(id = comment_id).update(comment=comment_form.cleaned_data["comment"])
                 
             return redirect("/game="+value)
-        
+
     Comments.objects.filter(id = comment_id).delete()
     return redirect("/game="+value)
     
     
     
 def logging_in(req):
+    data = calculate_url("games")
+    x2 = [0,1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+
+
+    x3 = random.sample(x2, 18) 
     if req.method == "POST":
         username = req.POST.get("username")
         password = req.POST.get("password")
@@ -364,14 +373,7 @@ def logging_in(req):
             else:
                 return HttpResponse("user not acitve")
         else:
-             return redirect("/")
-
-    data = calculate_url("games")
-    x2 = [0,1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
-
-
-    x3 = random.sample(x2, 18) 
-
+            return render(req,"login.html",{'image' : data["results"][x3[5]] , 'msg' : 'Wrong Username or Password'})
     return render(req,'login.html',{'image' : data["results"][x3[5]]})
 
 @login_required

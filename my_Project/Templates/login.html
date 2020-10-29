@@ -11,7 +11,7 @@
 position: absolute;
 width: 100%;
 opacity: .7;
-top: 7%;
+top: 6%;
 left: 0%;
 /* padding-left: 41%; */
 height: 110%;
@@ -29,7 +29,7 @@ z-index: 5;
 <div class="reigster_content" style=" height: 110%;
 background-image: url({{image.background_image}});
 background-size: cover;
- top: 7%; 
+ top: 6%; 
 left: 0%;
 width: 100%;
 position: absolute;
@@ -43,7 +43,18 @@ z-index: 4;"
     
         <form method = "POST" class="game-zone" autocomplete="off" >
     
-             <h1 style= " text-align: center; color: #fff; grid-column-start: 1; grid-column-end: 4; width: 30.5%; margin-bottom: 0;" class="py-1" >Log In</h1> 
+             <h1 style= " text-align: center; color: #fff; grid-column-start: 1; grid-column-end: 4; width: 30.5%; margin-bottom: 3%;  padding-right: 4%;" class="py-1" >Log In</h1> 
+          
+               {% if msg %}
+                    <p style="    
+    height: min-content;
+    position: absolute;
+    top: 18%;
+    text-align: center;
+    left: -2%;
+    font-size: 20px;
+    color: red;">{{msg}}</p>
+                {% endif %} 
             {% csrf_token %}
 
 
@@ -70,6 +81,8 @@ z-index: 4;"
         
             <div style=" color: white;  width: 100%; ">
                 <h1>Login</h1>
+               
+                
                 <h3>Get Access to many games</h3>
             </div>
 

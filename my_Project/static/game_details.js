@@ -111,6 +111,10 @@ function Delete_comment( index, id , slug){
         
     })
 }
+
+
+
+
  $(".my-rating").starRating({
     starSize: 25,
     strokeColor: '#894A00',

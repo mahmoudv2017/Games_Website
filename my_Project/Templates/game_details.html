@@ -255,9 +255,9 @@
                                 <div class="comment_access">
                                     {% if user_profile.user  %}
                                         {% if x.liked == 1 %}
-                                                <i style="color: blue;" onclick="like({{forloop.counter}},'up' , {{x.id}} , '{{x.game_slug}}')" class="far fa-thumbs-up"></i>
+                                                <i style="color: blue; cursor: pointer;" onclick="like({{forloop.counter}},'up' , {{x.id}} , '{{x.game_slug}}')" class="far fa-thumbs-up"></i>
                                         {% else %}
-                                                <i onclick="like({{forloop.counter}},'up',{{x.id}} , '{{x.game_slug}}' )" class="far fa-thumbs-up"></i>
+                                                <i style="cursor: pointer;" onclick="like({{forloop.counter}},'up',{{x.id}} , '{{x.game_slug}}' )" class="far fa-thumbs-up"></i>
                                         {% endif %}
                                     {% else %}
                                         <i style="position: relative; z-index: -1;" onclick="like({{forloop.counter}},'up',{{x.id}} , '{{x.game_slug}}' )" class="far fa-thumbs-up"></i>
@@ -268,9 +268,9 @@
                                 <div  class="comment_access"> 
                                     {% if user_profile.user  %}
                                         {% if x.liked == 2 %}
-                                                <i style="color: red;" onclick="like({{forloop.counter}},'down' , {{x.id}} , '{{x.game_slug}}')" class="far fa-thumbs-down"></i>
+                                                <i style="color: red; cursor: pointer;" onclick="like({{forloop.counter}},'down' , {{x.id}} , '{{x.game_slug}}')" class="far fa-thumbs-down"></i>
                                         {% else %}
-                                                <i onclick="like({{forloop.counter}},'down',{{x.id}} , '{{x.game_slug}}' )" class="far fa-thumbs-down"></i>
+                                                <i style="cursor: pointer;" onclick="like({{forloop.counter}},'down',{{x.id}} , '{{x.game_slug}}' )" class="far fa-thumbs-down"></i>
                                         {% endif %}
                                     {% else %}
                                         <i style="position: relative; z-index: -1;" onclick="like({{forloop.counter}},'down',{{x.id}} , '{{x.game_slug}}' )" class="far fa-thumbs-down"></i>
@@ -299,12 +299,12 @@
                                             <img src="/media/profile_image/alt.png" style="height: 50px; width: 50px; border-radius: 50%;" >
                                         {% endif %}
                                     </div>
-                                    <form action='/id={{ data.slug }}/EditComment/{{ x.id }}/reply={{ x.user.username }}' method='POST' style=' margin-bottom: 5%; width: 100%;' >
+                                    <form class="replierr"  method='POST' style=' margin-bottom: 5%; width: 100%;' >
                                         {% csrf_token %}
                             
-                                        <input type='text'  name='comment' style=' margin-bottom: 1%; width: 100%;' class='form-control' placeholder='Type a Comment' id='id_comment' required >
+                                        <input type='text' class="actual_reply" name='comment' style=' margin-bottom: 1%; width: 100%;' class='form-control' placeholder='Type a Comment' id='id_comment' required >
                                         
-                                        <button  class='btn btn-primary' style='float: right;' >Save</button>
+                                        <a onclick="reply_submission('{{x.user.username}}' , '{{x.id}}' , '{{forloop.counter}}')" class='btn btn-primary' style='float: right;' >Save</a>
                                         <a  class='btn btn-primary' onclick="add_reply({{forloop.counter}})" style=' margin-right: 1%; float: right;' >Cancel</a>
                                     </form>
                                 </div>
@@ -345,10 +345,10 @@
                         
 
                             <div class="comment_former hide" >
-                                <form action="/id={{ data.slug }}/EditComment/{{ x.id }}/reply=false" method="POST" style=" margin-bottom: 5%;" >
+                                <form  action="/id={{ data.slug }}/EditComment/{{ x.id }}/reply=false" method="POST" style=" margin-bottom: 5%;" >
                                 {% csrf_token %}
                         
-                                <input type='text'  name='comment' style=' width: 100%;' class='form-control' placeholder="Type a Comment" id= "id_comment" required value="{{x.comment}}">
+                                <input type='text'  name='comment' style=' width: 100%;' class='form-control' placeholder="Type a Comment" id= "id_comment " required value="{{x.comment}}">
                         
                                 <button  class='btn btn-primary' style='float: right;' >Save</button>
                                 <a  class='btn btn-primary' onclick=edit_comment({{forloop.counter}}) style=' margin-right: 1%; float: right;' >Cancel</a>
@@ -387,8 +387,9 @@
     
  
     $('#add_me').on("submit",function(e){
-        e.preventDefault()
-     
+      e.preventDefault()
+        
+      console.log("asssssssssssssssssssssss")
 
       $.ajax({
             type : 'POST',
@@ -414,6 +415,45 @@
             
 
     })
+
+
+
+
+
+
+
+
+    function reply_submission(username , comment_id ,index){
+
+
+        
+        
+
+      $.ajax({
+
+        type : 'POST',
+        url :  '/id={{ data.slug }}/EditComment/'+comment_id+'/reply='+username,
+        data : {
+            comment : $('.actual_reply').val(),
+            csrfmiddlewaretoken : $('input[name = csrfmiddlewaretoken]').val()
+        },
+        success:function(data){
+            
+            console.log(data)
+
+            console.log('sucess')
+            $("body" ).html(data)
+
+        }
+            
+            
+        })
+
+        document.querySelectorAll(".replierr")[index-1].innerHTML = "<h1>LOADING....<h1>"
+        
+
+   }
+   
 
 </script>
         

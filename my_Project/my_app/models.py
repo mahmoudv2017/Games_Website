@@ -1,4 +1,6 @@
 from django.db import models
+import jsonfield
+
 
 from django.contrib.auth.models import User
 
@@ -51,6 +53,7 @@ class Comments(models.Model):
 class Cart(models.Model):
     game_image = models.CharField(max_length = 250 , blank = True)
     title = models.CharField(max_length = 250 , blank = True)
+    genres = jsonfield.JSONField()
     mac_id = models.CharField(max_length = 250 , blank = True)
     slug = models.CharField(max_length = 250 , blank = True)
     page_no = models.CharField(max_length = 250 , blank = True)

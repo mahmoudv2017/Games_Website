@@ -6,7 +6,7 @@ from django.template.defaultfilters import slugify
 import urllib.request,json,datetime
 import platform,math
 import random
-from django.shortcuts import get_object_or_404
+
 
 import getmac
 from datetime import datetime, timedelta

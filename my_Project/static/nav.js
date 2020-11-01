@@ -31,18 +31,19 @@
   $(".search_of_form").on("submit" , function(e){
     e.preventDefault()
     console.log(text.value)
-    $.ajax({
+    window.location.href = '/search='+text.value+"/page=1"
+    // $.ajax({
 
         
 
-        type : "GET",
-        url : '/search='+text.value+"/page=1",
-        success:function(reponse){
-            console.log(reponse)
-            $("body").html(reponse)
-        }
+    //     type : "GET",
+    //     url : '/search='+text.value+"/page=1",
+    //     success:function(reponse){
+    //         console.log(reponse)
+    //         $("body").html(reponse)
+    //     }
         
-    })
+    // })
   })
     // function search_me(){
 

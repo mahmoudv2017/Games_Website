@@ -68,7 +68,11 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+             "libraries" : {
+            "custom_tagger" : "my_app.custom_tags.actual_tags"
+        }
         },
+       
     },
 ]
 

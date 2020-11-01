@@ -32,7 +32,7 @@ var similar_swiper = new Swiper(' .similars', {
         prevEl: '.swiper-button-prev',
       },
     autoplay: {
-        delay: 4000,
+        delay: 1500,
       },
     centeredSlides: true,
     pagination: {
@@ -87,6 +87,14 @@ $('.game_pc').owlCarousel({
             items:5
         }
     }
+})
+
+
+
+
+$('.owl-carousel').on('click' , function(e){
+  console.log(e)
+  document.querySelectorAll('owl-carousel')[0].classList.add("grapperr")
 })
 
 

@@ -6,6 +6,7 @@ from django.template.defaultfilters import slugify
 import urllib.request,json,datetime
 import platform,math
 import random
+from django.shortcuts import get_object_or_404
 
 import getmac
 from datetime import datetime, timedelta
@@ -119,9 +120,22 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
     }
 
 
-
+    f = False
+    my_cart = 0
     if(auth(req)):
-        rendering_data["user_profile"] = User_Info.objects.filter(user = req.user).get() 
+        if(User_Info.objects.filter(user = req.user).get() ):
+            rendering_data["user_profile"] = User_Info.objects.filter(user = req.user).get() 
+        try:
+            my_cart = Cart.objects.filter(user = req.user)
+            f = True
+        except Cart.DoesNotExist:
+            f = False
+
+        if(f):
+            print("the cart is sent")
+            rendering_data["cart"] = Cart.objects.filter(user = req.user) 
+        
+       
   
 
     print("the page num is" + page_num)
@@ -171,11 +185,11 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
 def register(req):
     user_info = user_form()
     user_profile = user_profile_info()
-
+    
     my_dic = {
          'former' : user_info ,
-         'user_profiler' : user_profile ,
-         'registered' : False
+         'user_profiler' : user_profile 
+
          
          }
 
@@ -187,7 +201,6 @@ def register(req):
             user = user_info.save()
             user.set_password(user.password)
             user.save()
-
             profile_info = user_profile.save(commit=False)
             profile_info.user = user
             
@@ -195,7 +208,7 @@ def register(req):
                 profile_info.profile_image = req.FILES['profile_image']
 
             profile_info.save()
-            my_dic["registered"] = True
+        
             return redirect("/login")
 
     random.seed(1)
@@ -223,22 +236,25 @@ def details(req,value):
     if auth(req):
         user = User_Info.objects.filter(user = req.user).get()
         
-
+    average = 0
     for x in data["results"]:
         if(str(x["slug"]) == value):
             for y in x["genres"]:
+       
                 url2 = url2 + str(y["id"])+","
 
            # data2 = calculate_url("games?genres="+genre)
             similar_item = calculate_url(urler + url2[:-1])
             if auth(req):
-                query = user_rating.objects.filter(user = req.user , game_slug = x["slug"])
+                query = user_rating.objects.filter(user = req.user ,game_slug = value )
+     
             rendering_data = {
                 'replies' : Comments_reply.objects.all() , 
                 'similar_items' : similar_item["results"],
                 'data' : x , 'comments' : Comments.objects.filter(game_slug = value).order_by('-date_added') , 
                 'comment_form' : comments_form() , 
-                "user_profile" : user
+                "user_profile" : user,
+                'average' : average
             }
             
             if query:
@@ -246,12 +262,12 @@ def details(req,value):
             
             
 
-                
+          
            
             return render(req,"game_details.html",rendering_data)
     return HttpResponse(data["results"])
             
-def cart_view(req,value,title=""):
+def cart_view(req,value="",title=""):
 
     count = 0
     
@@ -267,17 +283,18 @@ def cart_view(req,value,title=""):
 
     for x in data["results"]:
         if(str(x["slug"]) == value):
-            Cart.objects.get_or_create(title=x["name"] , slug = x["slug"] ,page_no= page_num_details ,price= x["metacritic"],game_image= x["background_image"], mac_id = getmac.get_mac_address())[0]
-    for x in Cart.objects.filter(mac_id=getmac.get_mac_address()):
-        count += x.price
+            # , mac_id = getmac.get_mac_address()
+            Cart.objects.get_or_create(title=x["name"] , user = req.user , average_score = x["rating"] , rating_count = x["ratings_count"]  ,genres=x["genres"] ,user_rating = x["rating"] ,  release_date = x["released"] , slug = x["slug"] ,page_no= page_num_details ,metacritic= x["metacritic"],game_image= x["background_image"])[0]
+            print('here in my slugger')
+    
   
 
 
-    if auth(req):
-        return render(req,"cart.html",{'data' : Cart.objects.all() ,'user_profile' : User_Info.objects.filter(user = req.user).get(),'count':count})
+    # if auth(req):
+    #     return render(req,"cart.html",{'data' : Cart.objects.all() ,'user_profile' : User_Info.objects.filter(user = req.user).get(),'count':count})
    
 
-    return render(req,"cart.html",{'data' : Cart.objects.all(),'count':count})
+    return render(req,"cart.html",{'data' : Cart.objects.filter(user = req.user),'count':count})
     
 def landing(req):
     week_from_date = datetime.now()
@@ -308,12 +325,33 @@ def new_comment(req,value,comment_id = '-1',title="" , reply="false"):
     print('reply :' + reply )
     if reply == "like":
         data = {}
+        id_s = []
+
+       
+
+        user  = User_Info.objects.filter(user=req.user).values("liked_comments")
+        id_s =  user[0]['liked_comments']
+        print(id_s)
+        id_s.append(comment_id)
+      
+        User_Info.objects.filter(user=req.user).update(liked_comments=id_s)
+        
+
         query = Comments.objects.filter(id = comment_id).values('like')
         num = int(query.get()["like"]) + 1
         Comments.objects.filter(id = comment_id).update(like = num , liked = 1)
         data["num"] = num
         return JsonResponse(data , safe=False)
+
     if reply == "dislike":
+
+        id_l = []
+        user  = User_Info.objects.filter(user=req.user).values("disliked_comments")
+        id_l =  user[0]['disliked_comments']
+        print(id_l)
+        id_l.append(comment_id)
+      
+        User_Info.objects.filter(user=req.user).update(disliked_comments=id_l)
         query = Comments.objects.filter(id = comment_id).values('dislike')
         num = int(query.get()["dislike"]) + 1
         Comments.objects.filter(id = comment_id).update(dislike = num , liked = 2)

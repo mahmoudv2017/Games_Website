@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 {% extends 'nav.html' %}
+{% load custom_tagger %}
 {% block body_block %}
 
 
@@ -18,14 +20,47 @@
          
 
         <div class="game-text" style=" max-width: 70%;">
+    
             
-            
-            <h1 style="margin-bottom: 3%; color: #211b1b;">{{ data.name }}</h1>
+            <h1 style="margin-bottom: 7%; color: #211b1b;">{{ data.name }}</h1>
+           
+
+                
+           
             {% if user.is_authenticated %}
-                <div  role="{{ratinger.rating}}" id="{{data.slug}}" class="my-rating"></div>
+            <div class="score-area" style="display: grid; grid-template-columns: 10% 10%;">
+
+            
+                <div class="main" >
+                    <i class="fas fa-star"></i>
+                    <div class="api_rating">
+                        {{data.rating|floater}}
+                    </div>
+                    <div class="ratings_count">
+                        {{data.ratings_count}}
+                    </div>
+
+                </div>
+                
+
+                <div class="user_score" style="display: grid; grid-template-columns: min-content 5%; margin-left: 4%; margin-top: 7%;" >
+                    <div   role="{{ratinger.rating}}" id="{{data.slug}}" class="my-rating"></div>
+                    <i class="fas fa-star user_star" style="color: gray;"></i>
+                    <span class="his_rating " style="margin-left: 70%; top: -13%;">rate this</span>
+                    <div >
+                        You
+                    </div>
+                </div>
+
+            </div>
+                {% comment %} <div   role="{{ratinger.rating}}" id="{{data.slug}}" class="my-rating"></div> {% endcomment %}
             {% else %}
-                <div style="position: relative; z-index: -1;" role="{{ratinger.rating}}" id="{{data.slug}}" class="my-rating"></div>
+                {% comment %} <div  style="position: relative; z-index: -1; display: flex;" role="{{ratinger.rating}}" id="{{data.slug}}" class="my-rating"></div> {% endcomment %}
             {% endif %}
+
+
+                
+           
             <br><br>
            
             <p >   <strong>About :</strong> It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
@@ -77,9 +112,9 @@
                 
             </div>
 
-             <!-- <a href="/cart/id={{data.slug}}" class="btn btn-success" style="margin-bottom: 4%;"> Add To Cart </a>
+              <a href="/cart/id={{data.slug}}" class="btn btn-success" style="margin-bottom: 4%;"> Add To Cart </a>
 
-            <a href="https://fitgirl-repacks.site/{{data.slug}}/" class="btn btn-success" style="margin-bottom: 4%;"> Fitgirl </a> -->
+           <!-- <a href="https://fitgirl-repacks.site/{{data.slug}}/" class="btn btn-success" style="margin-bottom: 4%;"> Fitgirl </a> -->
 
 
             
@@ -254,11 +289,35 @@
                             <div style="display: flex;">
                                 <div class="comment_access">
                                     {% if user_profile.user  %}
-                                        {% if x.liked == 1 %}
-                                                <i style="color: blue; cursor: pointer;" onclick="like({{forloop.counter}},'up' , {{x.id}} , '{{x.game_slug}}')" class="far fa-thumbs-up"></i>
-                                        {% else %}
-                                                <i style="cursor: pointer;" onclick="like({{forloop.counter}},'up',{{x.id}} , '{{x.game_slug}}' )" class="far fa-thumbs-up"></i>
-                                        {% endif %}
+                                        
+                                            <script>
+                                                f = true
+                                            </script>
+                                        
+                                        {% for liked_id in user_profile.liked_comments %}
+                                        
+                                            {% if liked_id|converter == x.id %}
+                                                <i style="color:blue; position: relative; cursor: pointer;"  onclick="like({{forloop.counter}},'up' , {{x.id}} , '{{x.game_slug}}')" class="far fa-thumbs-up"></i>
+                                                {% comment %} else statment {% endcomment %}
+                                                <script>
+                                                    f = false
+                                                </script>
+                                        
+                                              
+                                            {% endif %}
+                                        {% endfor %}
+                                       
+                                  
+                                            <div class="otheress">
+                                                <i style="cursor: pointer; position: relative; " onclick="like({{forloop.counter}},'up' , {{x.id}} , '{{x.game_slug}}')" class="far fa-thumbs-up seconder"></i>
+                                            </div>
+
+                                            <script>
+                                                if(!f){
+                                                    x = parseInt('{{forloop.counter}}')
+                                                    document.querySelectorAll('.otheress')[x-1].innerHTML = ""
+                                                }
+                                            </script>
                                     {% else %}
                                         <i style="position: relative; z-index: -1;" onclick="like({{forloop.counter}},'up',{{x.id}} , '{{x.game_slug}}' )" class="far fa-thumbs-up"></i>
                                     {% endif %}
@@ -266,15 +325,40 @@
                                     <p class="like_counter" style="font-size: 17px;">{{x.like}}</p>
                                 </div>
                                 <div  class="comment_access"> 
-                                    {% if user_profile.user  %}
-                                        {% if x.liked == 2 %}
-                                                <i style="color: red; cursor: pointer;" onclick="like({{forloop.counter}},'down' , {{x.id}} , '{{x.game_slug}}')" class="far fa-thumbs-down"></i>
-                                        {% else %}
-                                                <i style="cursor: pointer;" onclick="like({{forloop.counter}},'down',{{x.id}} , '{{x.game_slug}}' )" class="far fa-thumbs-down"></i>
-                                        {% endif %}
+                                     {% if user_profile.user  %}
+                                        
+                                            <script>
+                                                f2 = true
+                                            </script>
+                                        
+                                        {% for disliked_id in user_profile.disliked_comments %}
+                                        
+                                            {% if disliked_id|converter == x.id %}
+                                                <i style="color:red; cursor: pointer; position: relative;"  onclick="like({{forloop.counter}},'down' , {{x.id}} , '{{x.game_slug}}')" class="far fa-thumbs-down"></i>
+                                                {% comment %} else statment {% endcomment %}
+                                                <script>
+                                                    f2 = false
+                                                </script>
+                                        
+                                              
+                                            {% endif %}
+                                        {% endfor %}
+                                       
+                                  
+                                            <div class="otheress2">
+                                                <i style="cursor: pointer; position: relative;" onclick="like({{forloop.counter}},'down' , {{x.id}} , '{{x.game_slug}}')" class="far fa-thumbs-down "></i>
+                                            </div>
+                                            
+                                            <script>
+                                                if(!f2){
+                                                    x = parseInt('{{forloop.counter}}')
+                                                    document.querySelectorAll('.otheress2')[x-1].innerHTML = ""
+                                                }
+                                            </script>
                                     {% else %}
                                         <i style="position: relative; z-index: -1;" onclick="like({{forloop.counter}},'down',{{x.id}} , '{{x.game_slug}}' )" class="far fa-thumbs-down"></i>
                                     {% endif %}
+                                    
                                    
                                     
                                     <p class="dislike_counter" style="font-size: 17px;">{{x.dislike}}</p>
@@ -378,18 +462,26 @@
 
 <script>
 
+   
+
+   function show_my_rating(){
+       current_ratting =  $('.my-rating').starRating('getRating')
+       console.log(current_ratting)
+   }
+
     f = false
+    t = false
     function small_menu(index){
         console.log("dropdown position")
         document.querySelectorAll(".dropdown-menu")[index-1].classList.toggle("show")
     }
 
-    
+   
+
  
     $('#add_me').on("submit",function(e){
       e.preventDefault()
-        
-      console.log("asssssssssssssssssssssss")
+
 
       $.ajax({
             type : 'POST',

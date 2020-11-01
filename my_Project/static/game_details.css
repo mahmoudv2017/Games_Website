@@ -1,0 +1,45 @@
+.game-content .fa-star , .rower .fa-star{
+    color: gold;
+    font-size: 28px;
+}
+
+.ratings_count{
+    
+    text-align: center;
+    font-size: 19px;
+}
+
+.api_rating{
+    position: relative;
+    display: inline;
+    font-size: 29px;
+    font-weight: 700;
+    color: gold;
+}
+
+.styler2{
+    color: #278bd8 !important;
+}
+
+.game-text .my-rating{
+    position: absolute;
+    border-radius: 14px;
+    width: 7%;
+    display: none;
+    height: 3%;
+    background: gray;
+    top: 25%;
+}
+
+.api_rating2{
+    display: inline;
+    font-size: 29px;
+    font-weight: 700;
+}
+
+.main{
+    display: block;
+
+    border-right: 2px solid black;
+}
+

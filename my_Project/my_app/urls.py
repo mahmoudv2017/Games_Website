@@ -32,7 +32,7 @@ urlpatterns = [
     #/////////////////// Canceled
     path("cart/id=<value>",views.cart_view , name= "cart"),
     path("cart/id=<value>/<title>",views.cart_view , name= "cart"),
-    path("user_settings",views.settings , name= "settings")
+    path("cart",views.cart_view , name= "cart")
 
   
     

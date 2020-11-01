@@ -4,6 +4,22 @@ var links = document.querySelectorAll(".btn-dark")
 
 var items = document.querySelectorAll(".page-item")
 
+function added(index){
+    document.querySelectorAll('.adder_of_cart')[index-1].classList.toggle("not_added")
+    document.querySelectorAll('.adder_of_cart')[index-1].classList.toggle("added")
+    document.querySelectorAll('.fa-plus')[index-1].classList.toggle("hiderr")
+}
+function add_to_cart(slug,index){
+    console.log("the index is " + index)
+    $.ajax({
+        type: "GET" , 
+        url : "/cart/id="+slug,
+        success : function(reponse){
+            console.log("added to the cart")
+            added(index)
+        }
+    })
+}
 
 function give_me_more(key){
     $.ajax({
@@ -40,7 +56,7 @@ function play_me(index,value){
     setTimeout(function(){
         document.querySelectorAll(".fideo")[index].style.opacity = "1"
         document.querySelectorAll(".fideo")[index].play()
-    },.01)
+    },.00001)
      
 }
 

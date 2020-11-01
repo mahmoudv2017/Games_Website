@@ -12,6 +12,9 @@ function like(index,type , comment_id , slug){
     var vtn_up  = document.querySelectorAll('.fa-thumbs-up')[index-1]
     var vtn_down  = document.querySelectorAll('.fa-thumbs-down')[index-1]
     if(vtn_up.style.color != "blue" && vtn_down.style.color != "red"){
+       vtn_up = vtn_up.style.zIndex = "-1"
+       vtn_down = vtn_down.style.zIndex = "-1"
+       console.log(vtn_up)
         if(type == "up"){
           
 
@@ -115,13 +118,20 @@ function Delete_comment( index, id , slug){
 
 
 
+    choosen_one = $(".my-rating")[0].attributes.role.nodeValue
+    choosen_one2 = 0
+   
+
  $(".my-rating").starRating({
     starSize: 25,
     strokeColor: '#894A00',
-    initialRating:  $(".my-rating")[0].attributes.role.nodeValue,
+    hoverColor : '#278bd8' ,
+    initialRating: choosen_one,
+  
     callback: function(currentRating, $el){
         // make a server call here
-        
+        console.log("clicked")
+        choosen_one2 = currentRating
    
         req = $.ajax({
             type : 'POST',
@@ -141,3 +151,106 @@ function Delete_comment( index, id , slug){
     }
     });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+count = 0;
+past_rate = document.querySelector(".api_rating").textContent
+user_star = document.querySelector(".user_star")
+his_rating = document.querySelector(".his_rating")
+
+
+
+
+
+
+document.querySelectorAll(".my-rating polygon").forEach(item => {
+    
+    item.addEventListener("mouseenter" , function(){
+        document.querySelectorAll(".my-rating polygon").forEach(item => {
+        if(item.dataset.side == "right" || item.dataset.side == "left"){
+            var cl_list = item.classList.value
+           
+            if(cl_list.includes("hovered")){
+
+                if(count <= 10){
+                    
+                    count += 1
+                    if(count == 11){count= 9;}
+                }
+                document.querySelector(".user_star").classList.add('styler2')
+                his_rating.classList.add('api_rating' , 'styler2')
+           
+                his_rating.textContent = count*.5
+                
+            }else{
+                count = 0;
+            }
+            
+            
+    
+        }
+    })
+    })
+
+})
+
+
+document.querySelector('.my-rating').addEventListener("mouseleave" , function(){
+    document.querySelector(".user_star").classList.toggle('styler2')
+    reset()
+    reset_user_star()
+
+})
+
+function reset(){
+    if(choosen_one == 0){
+        his_rating.classList.toggle('api_rating')
+        his_rating.classList.toggle('styler2')
+        his_rating.textContent = "rate this"
+    }
+    
+}
+
+function reset_user_star(){
+    setTimeout(function(){
+        document.querySelector('.user_star').addEventListener("mouseenter" , function(){
+            console.log('s')
+            document.querySelector('.user_score .my-rating').style.display = "block"
+        })
+
+        if(choosen_one > 0){
+            document.querySelector(".user_star").style.color = "#278bd8"
+            his_rating.classList.toggle('api_rating')
+            his_rating.classList.toggle('styler2')
+           
+            his_rating.textContent = choosen_one
+            if(choosen_one2 > 0){
+                his_rating.textContent = choosen_one2
+            }
+        }
+    } , 40)
+   
+}
+
+
+rater = document.querySelector('.my-rating')
+rater.addEventListener("mouseleave" , function(e){
+    console.log("ss")
+    rater.style.display = "none"
+    reset_user_star()
+})
+
+reset_user_star()

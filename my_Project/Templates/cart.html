@@ -1,12 +1,17 @@
+<!DOCTYPE html>
 {% extends 'nav.html' %}
+{% load custom_tagger %}
 {% block body_block %}
 <div style=" padding-bottom: 12.5%; margin-top:5%;  width:max-content ">
-
+    {% if not data  %}
+        <h1 style="text-align: center; width: 540%;">Your Cart Is Empty</h1>
+    
+    {% endif %}
     {% for x in data %}
 
-        <div class="rower" style="display: grid; grid-template-columns: 400px 80%; transition: .7s all;">
+        <div class="rower" style="display: grid; grid-template-columns: 400px 80%; transition: 1s all; position: relative; left: 0; margin-left: 23%;">
             <div class="column_1">
-                <img src="{{ x.game_image }}" style="width:100%; border-radius: 15px; " alt="">
+                <img src="{{ x.game_image }}" style="width:100%; height: 254px; border-radius: 15px; " alt="">
                 <br><br>
                 <hr style="color: black;" width="400%">
             </div>
@@ -14,12 +19,33 @@
             <div class="column_2" style="margin-left:5%;">
                 
     
-                <h1 class="title">{{x.title}}</h1>
-                <br>
-                <a href="/cart/id={{x.id}}/delete"  onclick="remove_rec({{forloop.counter}})" class="btn btn-danger" >delete</a>
+                <a href="/game={{x.slug}}">  <h1 class="title">{{x.title}}</h1></a>
 
-                <h2>Price : {{x.price}}</h2>
-    
+                <div class="main" style="width: 17%; border: none !important;" >
+                    <i class="fas fa-star"></i>
+                    <div class="api_rating" >
+                        {{x.average_score|floater}}
+                    </div>
+                    <div class="ratings_count">
+                        {{x.rating_count}}
+                    </div>
+
+                </div>
+               
+                <p style="display: inline; margin-right: 9%; "> <span style=" font-weight: 700; font-size: 20px;"> Release Date :</span> <span style="font-size: 16px; font-family: cursive;color: white;">{{x.release_date}}</span></p>
+                 <p style="display: inline; font-weight: 700; font-size: 20px;">Genres : </p>
+                 {% for x in x.genres %}
+                    <span style="display:inline; font-size: 16px; font-family: cursive;color: white;">{{x.name}}</span>
+                {% endfor %}
+                <p style=" margin-right: 9%; "> <span style=" font-weight: 700; font-size: 20px;"> Metacritic :</span> <span style="font-size: 16px; font-family: cursive;color: white;">{{x.metacritic}}</span></p>
+
+
+              
+               
+                <br>
+                <a style="position: relative; bottom: 75%; left: 100%;" onclick="remove_rec('{{forloop.counter}}' , '{{x.id}}')" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a>
+
+               
             </div>
         </div>
        
@@ -28,21 +54,32 @@
 
     {% endfor %}
 
-    <div >
-        <h1 style="text-align: right;">Subtotal : {{count}}</h1>
-    </div>
+  
  
         
     <script>
-        function remove_rec(index){
+        function remove_rec(index,record_id){
             console.log("before and agfter")
             var diver =  document.querySelectorAll(".rower")[index-1].classList.toggle("swiper")
  
-            setInterval(function(){
-                console.log("asd")
-                document.querySelectorAll(".rower")[index-1].style.height = parseInt(document.querySelectorAll(".rower")[index-1].clientHeight)-2
-                console.log(document.querySelectorAll(".rower")[index-1].style.height)
-            },300)
+            // setTimeout(function(){
+            //     console.log("asd")
+            //     document.querySelectorAll(".rower")[index-1].style.height = parseInt(document.querySelectorAll(".rower")[index-1].clientHeight)-2
+            //     console.log(document.querySelectorAll(".rower")[index-1].style.height)
+            // },100)
+
+           setTimeout(function(){
+            $.ajax({
+                type:"GET",
+                url : "/cart/id="+record_id+"/delete",
+                success:function(reponse){
+                    console.log('deleted')
+                    $('body').html(reponse)
+                }
+            })
+           } , 200)
+
+            
         
         }
             

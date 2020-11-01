@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 
 class User_Info(models.Model):
     user = models.OneToOneField(User  , on_delete = models.CASCADE)
+    liked_comments = jsonfield.JSONField(default=[])
+    disliked_comments = jsonfield.JSONField(default=[])
     profile_image = models.ImageField( upload_to = 'profile_image/' , blank = True)
 
 
@@ -53,11 +55,17 @@ class Comments(models.Model):
 class Cart(models.Model):
     game_image = models.CharField(max_length = 250 , blank = True)
     title = models.CharField(max_length = 250 , blank = True)
+    user = models.ForeignKey(User , null = True , on_delete = models.CASCADE)
+    average_score = models.FloatField(default=0)
+    rating_count = models.IntegerField(default=0)
+    release_date = models.CharField(max_length = 250 , blank = True)
+    user_rating = models.FloatField(default=0)
+  
     genres = jsonfield.JSONField()
-    mac_id = models.CharField(max_length = 250 , blank = True)
+    # mac_id = models.CharField(max_length = 250 , blank = True)
     slug = models.CharField(max_length = 250 , blank = True)
     page_no = models.CharField(max_length = 250 , blank = True)
-    price = models.IntegerField( blank = True)
+    metacritic = models.IntegerField( blank = True)
 
     def __str__(self):
         return self.title

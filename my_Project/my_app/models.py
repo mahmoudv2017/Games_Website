@@ -53,19 +53,19 @@ class Comments(models.Model):
         return self.user.username
     
 class Cart(models.Model):
-    game_image = models.CharField(max_length = 250 , blank = True)
+    game_image = models.CharField(max_length = 250 , blank = True , default="None" ,  null = True)
     title = models.CharField(max_length = 250 , blank = True)
     user = models.ForeignKey(User , null = True , on_delete = models.CASCADE)
     average_score = models.FloatField(default=0)
     rating_count = models.IntegerField(default=0)
-    release_date = models.CharField(max_length = 250 , blank = True)
+    release_date = models.CharField(max_length = 250 , blank = True , default = None ,  null = True)
     user_rating = models.FloatField(default=0)
   
     genres = jsonfield.JSONField()
     # mac_id = models.CharField(max_length = 250 , blank = True)
     slug = models.CharField(max_length = 250 , blank = True)
     page_no = models.CharField(max_length = 250 , blank = True)
-    metacritic = models.IntegerField( blank = True)
+    metacritic = models.CharField(max_length = 250 , blank = True ,  null = True)
 
     def __str__(self):
         return self.title

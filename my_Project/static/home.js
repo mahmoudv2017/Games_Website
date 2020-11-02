@@ -9,16 +9,38 @@ function added(index){
     document.querySelectorAll('.adder_of_cart')[index-1].classList.toggle("added")
     document.querySelectorAll('.fa-plus')[index-1].classList.toggle("hiderr")
 }
+
+function detailser(url){
+    window.location.href = url
+}
 function add_to_cart(slug,index){
     console.log("the index is " + index)
-    $.ajax({
-        type: "GET" , 
-        url : "/cart/id="+slug,
-        success : function(reponse){
-            console.log("added to the cart")
-            added(index)
-        }
-    })
+    flag = document.querySelectorAll('.ooo')[ index  - 1].classList.contains('added')
+    if(flag){
+
+        $.ajax({
+            type:"GET",
+            url : "/cart/id="+slug+"/delete",
+            success:function(){
+                console.log('deleted')
+                added(index)
+            }
+        })
+
+    }else{
+
+        $.ajax({
+            type: "GET" , 
+            url : "/cart/id="+slug,
+            success : function(reponse){
+                console.log("added to the cart")
+                added(index)
+            }
+        })
+
+    }
+    
+    
 }
 
 function give_me_more(key){

@@ -27,8 +27,8 @@
 
                 
            
-            {% if user.is_authenticated %}
-            <div class="score-area" style="display: grid; grid-template-columns: 10% 10%;">
+            
+            <div class="score-area" style="display: grid; grid-template-columns: 10% 10%; position: static;">
 
             
                 <div class="main" >
@@ -53,9 +53,11 @@
                 </div>
 
             </div>
-                {% comment %} <div   role="{{ratinger.rating}}" id="{{data.slug}}" class="my-rating"></div> {% endcomment %}
-            {% else %}
-                {% comment %} <div  style="position: relative; z-index: -1; display: flex;" role="{{ratinger.rating}}" id="{{data.slug}}" class="my-rating"></div> {% endcomment %}
+            {% if not user.is_authenticated %}
+          
+                <script> document.querySelector('.score-area').style.zIndex = "-1"
+                        document.querySelector('.score-area').style.position = "relative" </script>
+            
             {% endif %}
 
 

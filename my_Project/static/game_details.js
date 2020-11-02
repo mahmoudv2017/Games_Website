@@ -120,7 +120,7 @@ function Delete_comment( index, id , slug){
 
     choosen_one = $(".my-rating")[0].attributes.role.nodeValue
     choosen_one2 = 0
-   
+    his_rating = document.querySelector(".his_rating")
 
  $(".my-rating").starRating({
     starSize: 25,
@@ -132,6 +132,7 @@ function Delete_comment( index, id , slug){
         // make a server call here
         console.log("clicked")
         choosen_one2 = currentRating
+        his_rating = currentRating
    
         req = $.ajax({
             type : 'POST',
@@ -169,7 +170,7 @@ function Delete_comment( index, id , slug){
 count = 0;
 past_rate = document.querySelector(".api_rating").textContent
 user_star = document.querySelector(".user_star")
-his_rating = document.querySelector(".his_rating")
+
 
 
 

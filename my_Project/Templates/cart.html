@@ -11,7 +11,12 @@
 
         <div class="rower" style="display: grid; grid-template-columns: 400px 80%; transition: 1s all; position: relative; left: 0; margin-left: 23%;">
             <div class="column_1">
-                <img src="{{ x.game_image }}" style="width:100%; height: 254px; border-radius: 15px; " alt="">
+                {% if  x.game_image  == None %}
+                    <img src="/media/last.jpg" style="width:100%; height: 254px; border-radius: 15px; " alt="">
+                {% else %}
+                    <img src="{{ x.game_image }}" style="width:100%; height: 254px; border-radius: 15px; " alt="">
+                {% endif %}
+              
                 <br><br>
                 <hr style="color: black;" width="400%">
             </div>
@@ -19,7 +24,7 @@
             <div class="column_2" style="margin-left:5%;">
                 
     
-                <a href="/game={{x.slug}}">  <h1 class="title">{{x.title}}</h1></a>
+                <a href="/game={{x.slug}}">  <h1 style="color:white;"  class="title">{{x.title}}</h1></a>
 
                 <div class="main" style="width: 17%; border: none !important;" >
                     <i class="fas fa-star"></i>
@@ -43,7 +48,7 @@
               
                
                 <br>
-                <a style="position: relative; bottom: 75%; left: 100%;" onclick="remove_rec('{{forloop.counter}}' , '{{x.id}}')" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a>
+                <a style="position: relative; bottom: 75%; left: 100%;" onclick="remove_rec('{{forloop.counter}}' , '{{x.slug}}')" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a>
 
                
             </div>
@@ -58,7 +63,7 @@
  
         
     <script>
-        function remove_rec(index,record_id){
+        function remove_rec(index,slug){
             console.log("before and agfter")
             var diver =  document.querySelectorAll(".rower")[index-1].classList.toggle("swiper")
  
@@ -71,7 +76,7 @@
            setTimeout(function(){
             $.ajax({
                 type:"GET",
-                url : "/cart/id="+record_id+"/delete",
+                url : "/cart/id="+slug+"/delete",
                 success:function(reponse){
                     console.log('deleted')
                     $('body').html(reponse)

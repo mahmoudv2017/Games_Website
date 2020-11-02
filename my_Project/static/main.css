@@ -324,6 +324,15 @@ body{
     grid-template-areas: 'rel' 'genre';
 }
 
+.titlerr_of_card{
+  
+    color: #474783;
+}
+.titlerr_of_card:hover{
+  
+    color: lightblue;
+    transition: .5s all;
+}
 
 .data_title{
     font-size: medium;

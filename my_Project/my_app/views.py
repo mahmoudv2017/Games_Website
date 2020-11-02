@@ -16,6 +16,17 @@ from django.contrib.auth import login,logout,authenticate
 
 
 
+def carter(req):
+    
+    try:
+        my_cart = Cart.objects.filter(user = req.user)
+        f = True
+    except Cart.DoesNotExist:
+        f = False
+
+    if(f):
+        print("the cart is sent")
+        return Cart.objects.filter(user = req.user) 
 
 
 def auth(req):
@@ -102,6 +113,7 @@ def searcher(req,value,page_num = "1"):
 
     if(auth(req)):
         rendering_data["user_profile"] = User_Info.objects.filter(user = req.user).get()
+        rendering_data["cart"] =  carter(req)
     rendering_data['names'] = data
     rendering_data['type'] = "games"
     return render(req,"home.html" , rendering_data)
@@ -274,18 +286,20 @@ def cart_view(req,value="",title=""):
     
 
     if(title == "delete"):
-
-      Cart.objects.filter(id = value).delete()
-      return redirect("/cart/id="+value)
+ 
+      Cart.objects.filter(slug = value , user = req.user).delete()
+      return redirect("/cart")
         
 
 
 
     for x in data["results"]:
         if(str(x["slug"]) == value):
-            # , mac_id = getmac.get_mac_address()
-            Cart.objects.get_or_create(title=x["name"] , user = req.user , average_score = x["rating"] , rating_count = x["ratings_count"]  ,genres=x["genres"] ,user_rating = x["rating"] ,  release_date = x["released"] , slug = x["slug"] ,page_no= page_num_details ,metacritic= x["metacritic"],game_image= x["background_image"])[0]
-            print('here in my slugger')
+    
+            meta_score = 0
+            Cart.objects.get_or_create(title=x["name"] , user = req.user , average_score = x["rating"] , rating_count = x["ratings_count"]  ,genres=x["genres"] ,user_rating = x["rating"] ,  
+            release_date = x["released"] , slug = x["slug"] ,page_no= page_num_details ,metacritic= meta_score,game_image= x["background_image"])[0]
+    
     
   
 

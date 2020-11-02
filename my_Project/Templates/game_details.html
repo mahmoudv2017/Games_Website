@@ -528,7 +528,7 @@
         type : 'POST',
         url :  '/id={{ data.name}}/EditComment/'+comment_id+'/reply='+username,
         data : {
-            comment : $('.actual_reply').val(),
+            comment : document.querySelectorAll('.actual_reply')[index-1].value,
             csrfmiddlewaretoken : $('input[name = csrfmiddlewaretoken]').val()
         },
         success:function(data){

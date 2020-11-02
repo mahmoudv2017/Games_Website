@@ -59,7 +59,7 @@
 
     
         <span class="collabser navbar-nav ml-auto" onclick="openlister('.lister')" >&#9776; </span>
-        <div class="lister" >
+        <div class="lister" style="z-index: 150;" >
             
             <hr color="white">
             {% if user_profile.profile_image %}
@@ -93,7 +93,7 @@
                 <span class=" navbar-nav ml-auto" onclick="openlister('.lister2')" > <img class="nav-link" style="border-radius: 50%; height: 50px; width: 50px;" src="/media/profile_image/alt.png "  > </span>
                
                 {% endif %}
-                <div class="lister2" >
+                <div class="lister2" style="z-index: 150;">
                     <a class="nav-link" href="/logout">logout</a>
                 </div>
 

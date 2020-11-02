@@ -43,6 +43,8 @@ x = ['1','2','3','4','5','6']
 url = "https://api.rawg.io/api/games"
 reponse = urllib.request.urlopen(url)
 data = json.load(reponse)
+falg_of_details = False
+old_typer = ""
 typer = ""
 
 page_num_details = '0'
@@ -59,8 +61,13 @@ page_num_details = '0'
 def calculate_url(type):
     global url
     global typer
-    typer = type.replace(" ","%20")
 
+
+
+
+   
+    typer = type.replace(" ","%20")
+    print("type isssssssssssssssss" + typer)
     url = "https://api.rawg.io/api/"+typer
   
     print("ssssssssss" + url)
@@ -83,6 +90,10 @@ def searcher(req,value,page_num = "1"):
 
     print(value)
     global data
+    global old_typer
+
+    old_typer = ""
+    
     y = 0
     rendering_data = {
         'names' : "sasd"
@@ -102,7 +113,7 @@ def searcher(req,value,page_num = "1"):
         data = calculate_url("games?search="+value)
     else:
         data = calculate_url("games?page="+page_num+"&search="+value)
-    
+    print("type : "+typer)
     rendering_data = {
         'names' : data["results"],
         'pages' : ['1','2','3','4','5','6'],
@@ -123,6 +134,7 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
     global x
     global url
     global typer
+    global old_typer
     
     rendering_data = {
         'names' : data,
@@ -131,7 +143,9 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
         
     }
 
-
+    print("url : "+url)
+    print(typer)
+    print("the page num is" + page_num)
     f = False
     my_cart = 0
     if(auth(req)):
@@ -144,25 +158,33 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
             f = False
 
         if(f):
-            print("the cart is sent")
+
             rendering_data["cart"] = Cart.objects.filter(user = req.user) 
         
        
   
 
-    print("the page num is" + page_num)
+    
     
     if(page_num != 'more'):
         if(order != "nothing"):
-         
-            rendering_data['names'] = data = calculate_url("games?ordering=-"+order)
+            x = typer
+            
+            if(old_typer != ""):
+                rendering_data['names'] = data = calculate_url(old_typer+"&ordering=-"+order)
+            else:
+                rendering_data['names'] = data = calculate_url(typer+"&ordering=-"+order)
+
+           
+            old_typer = ""
+
             typer = x
             rendering_data['type'] = 'games'
             return render(req,'home.html',rendering_data)
 
         if value == "last_week" or value == "last_month":
             result_data = calculate_date(value)
-            print("results_data : " + result_data )
+         
             data = calculate_url('games?'+result_data)
             value = "games"
 
@@ -175,7 +197,7 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
 
     else:
         url2 = data["next"]
-        print("morerrrrr" + url2)
+
         reponse = urllib.request.urlopen(url2)
         data = json.load(reponse)
         #return JsonResponse(data , safe = False)
@@ -236,9 +258,17 @@ def register(req):
 def details(req,value):
 
     global data
+    global typer
+    global old_typer
+  
+
+
+    old_typer = typer
+  
+    
     data = calculate_url("games?search="+value)
     
-
+    
     genre = []
 
     urler = "games?genres="
@@ -252,12 +282,14 @@ def details(req,value):
     for x in data["results"]:
        
         if(str(x["name"]) == value):
+            print("the name is " + value)
             value = slugify(value)
             for y in x["genres"]:
        
                 url2 = url2 + str(y["id"])+","
 
            # data2 = calculate_url("games?genres="+genre)
+           
             similar_item = calculate_url(urler + url2[:-1])
             
      
@@ -307,9 +339,9 @@ def cart_view(req,value="",title=""):
     for x in data["results"]:
         if(str(x["slug"]) == value):
     
-            meta_score = 0
+      
             Cart.objects.get_or_create(title=x["name"] , user = req.user , average_score = x["rating"] , rating_count = x["ratings_count"]  ,genres=x["genres"] ,user_rating = x["rating"] ,  
-            release_date = x["released"] , slug = x["slug"] ,page_no= page_num_details ,metacritic= meta_score,game_image= x["background_image"])[0]
+            release_date = x["released"] , slug = x["slug"] ,page_no= page_num_details ,metacritic= x["metacritic"],game_image= x["background_image"])[0]
     
     
 
@@ -341,6 +373,7 @@ def settings(req):
 def new_comment(req,value,comment_id = '-1',title="" , reply="false"):
 
     print('value :' + value )
+    slug = slugify(value)
     print('title :' + title )
     print('id :' + comment_id )
     print('reply :' + reply )
@@ -401,7 +434,7 @@ def new_comment(req,value,comment_id = '-1',title="" , reply="false"):
           
             if title == "AddComment":
                 
-                comment = Comments.objects.get_or_create(comment = req.POST.get("comment") , user = req.user , game_slug = value , profile_image = User_Info.objects.filter(user = req.user).get().profile_image)[0]
+                comment = Comments.objects.get_or_create(comment = req.POST.get("comment") , user = req.user , game_slug = slug , profile_image = User_Info.objects.filter(user = req.user).get().profile_image)[0]
             else:
                
                 comment = Comments.objects.filter(id = comment_id).update(comment=comment_form.cleaned_data["comment"])

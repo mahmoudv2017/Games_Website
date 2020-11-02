@@ -17,7 +17,7 @@
                 {% for x in data %}
                     {% if x.background_image != null %}
                    
-                        <div class="swiper-slide" onclick="clicked('{{x.slug}}')" on style="background-image:url({{x.background_image}})">
+                        <div class="swiper-slide" onclick="clicked('{{x.name}}')" on style="background-image:url({{x.background_image}})">
                         
                             <!-- <p style="    position: relative;
                             text-align: center;
@@ -76,7 +76,7 @@
             {%for x in most_anti_data%}
                
                 <div class="item" style>
-                    <a href="game={{x.slug}}">
+                    <a href="game={{x.name}}">
                     <img style="height: 190px;" src="{{x.background_image}}" alt="">
                     </a>
                     
@@ -98,7 +98,7 @@
        
                 {% if  y.platform.name == "PC" %}
                  <div class="item">
-                    <a href="game={{x.slug}}">
+                    <a href="game={{x.name}}">
                     <img style="height: 190px;" src="{{x.background_image}}" alt="">
                     </a>
                         
@@ -129,7 +129,7 @@
        
                 {% if  y.platform.name == "PC" %}
                  <div class="item" style>
-                    <a href="game={{x.slug}}">
+                    <a href="game={{x.name}}">
                     <img style="height: 190px;" src="{{x.background_image}}" alt="">
                     </a>
                 </div>  

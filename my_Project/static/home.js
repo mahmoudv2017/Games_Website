@@ -54,13 +54,33 @@ function give_me_more(key){
     })
 }
 
+lastScrollTop = 0
+window.addEventListener("scroll", function(){ // or window.addEventListener("scroll"....
+   var st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
+   if (st > lastScrollTop){
+    
+    document.querySelector('.second').classList.remove("seconderr_fixed")
+   } else {
+        if(st == 0){
+            
+            document.querySelector('.second').classList.remove("seconderr_fixed")
+            console.log('here')
+        }else{
+            document.querySelector('.second').classList.add("seconderr_fixed")
+        }
+      
+      
+   }
+   lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+}, false);
 
 function order_me(){
     var selector = document.querySelector('select').value
 
     console.log(selector)
     if(selector != 'ee'){
-        window.location.href = "order="+selector
+       
+       window.location.href = "order="+selector
     }
 }
 

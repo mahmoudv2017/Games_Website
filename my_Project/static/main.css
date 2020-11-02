@@ -6,7 +6,8 @@
 
 .second{
     background-color: rgba(0,0,0,0.0);
-    z-index: 6;
+    z-index: 100;
+    transition: .5s all;
 }
 
 .first{
@@ -315,7 +316,15 @@ body{
 }
 
 
+.seconderr_fixed{
+    position: fixed;
+    width: 100%;
+    top: 0%;
+    transition: .5s all;
 
+    z-index: 100;
+    background-color: gray;
+}
 .card_data{
     height: 30%;
     display: grid;

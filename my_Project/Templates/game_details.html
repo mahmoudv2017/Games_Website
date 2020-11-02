@@ -390,7 +390,7 @@
                             
                                         <input type='text' class="actual_reply" name='comment' style=' margin-bottom: 1%; width: 100%;' class='form-control' placeholder='Type a Comment' id='id_comment' required >
                                         
-                                        <a onclick="reply_submission('{{x.user.username}}' , '{{x.id}}' , '{{forloop.counter}}')" class='btn btn-primary' style='float: right;' >Save</a>
+                                        <button onclick="reply_submission('{{x.user.username}}' , '{{x.id}}' , '{{forloop.counter}}')" class='btn btn-primary' style='float: right;' >Save</button>
                                         <a  class='btn btn-primary' onclick="add_reply({{forloop.counter}})" style=' margin-right: 1%; float: right;' >Cancel</a>
                                     </form>
                                 </div>

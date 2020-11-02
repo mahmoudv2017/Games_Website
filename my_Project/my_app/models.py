@@ -62,6 +62,7 @@ class Cart(models.Model):
     user_rating = models.FloatField(default=0)
   
     genres = jsonfield.JSONField()
+    #platforms = jsonfield.JSONField()
     # mac_id = models.CharField(max_length = 250 , blank = True)
     slug = models.CharField(max_length = 250 , blank = True)
     page_no = models.CharField(max_length = 250 , blank = True)

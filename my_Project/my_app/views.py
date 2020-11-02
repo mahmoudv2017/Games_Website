@@ -154,8 +154,8 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
     
     if(page_num != 'more'):
         if(order != "nothing"):
-            x = typer
-            rendering_data['names'] = data = calculate_url(typer+"&ordering=-"+order)
+         
+            rendering_data['names'] = data = calculate_url("games?ordering=-"+order)
             typer = x
             rendering_data['type'] = 'games'
             return render(req,'home.html',rendering_data)
@@ -250,15 +250,16 @@ def details(req,value):
         
     average = 0
     for x in data["results"]:
-        if(str(x["slug"]) == value):
+       
+        if(str(x["name"]) == value):
+            value = slugify(value)
             for y in x["genres"]:
        
                 url2 = url2 + str(y["id"])+","
 
            # data2 = calculate_url("games?genres="+genre)
             similar_item = calculate_url(urler + url2[:-1])
-            if auth(req):
-                query = user_rating.objects.filter(user = req.user ,game_slug = value )
+            
      
             rendering_data = {
                 'replies' : Comments_reply.objects.all() , 
@@ -268,15 +269,25 @@ def details(req,value):
                 "user_profile" : user,
                 'average' : average
             }
-            
-            if query:
-                rendering_data['ratinger'] = query.get()
-            
-            
+            if auth(req):
+             
+                try:
+                    query = user_rating.objects.filter(user = req.user ,game_slug = slugify(value) )
+                    print("the value is " + slugify(value))
+                    print(query.values())
+                    rendering_data['ratinger'] = query.get()
+                except user_rating.DoesNotExist:
+                    print('ss')
 
-          
-           
             return render(req,"game_details.html",rendering_data)
+
+
+
+
+
+
+
+
     return HttpResponse(data["results"])
             
 def cart_view(req,value="",title=""):
@@ -301,11 +312,7 @@ def cart_view(req,value="",title=""):
             release_date = x["released"] , slug = x["slug"] ,page_no= page_num_details ,metacritic= meta_score,game_image= x["background_image"])[0]
     
     
-  
 
-
-    # if auth(req):
-    #     return render(req,"cart.html",{'data' : Cart.objects.all() ,'user_profile' : User_Info.objects.filter(user = req.user).get(),'count':count})
    
 
     return render(req,"cart.html",{'data' : Cart.objects.filter(user = req.user),'count':count})
@@ -436,7 +443,12 @@ def logging_out(req):
 
 
 def rating_reg(req,value,rating):
-    
+    data = {
+        'slug' : value
+    }
+    ratinger = {
+        'rating' : 0
+    }
     if req.method == "POST":
 
        query = user_rating.objects.filter(user = req.user , game_slug = value)
@@ -445,7 +457,11 @@ def rating_reg(req,value,rating):
            query.update(rating = rating)
        else:
             user_rating.objects.get_or_create(user = req.user , game_slug = value , rating = rating )[0]
-       return redirect("/game="+value)
+
+       
+       ratinger['rating'] = rating
+       print(ratinger)
+       return render(req,"ratingg.html" , { 'data' : data , 'ratinger'  :  ratinger})
 
     
 

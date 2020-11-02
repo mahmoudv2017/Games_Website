@@ -23,8 +23,12 @@
     
             <div class="column_2" style="margin-left:5%;">
                 
-    
-                <a href="/game={{x.slug}}">  <h1 style="color:white;"  class="title">{{x.title}}</h1></a>
+                <div style="display: grid; grid-template-columns: 80% 20%;">
+                    <a href="/game={{x.name}}">  <h1 style="color:white; margin:0;"  class="title">{{x.title}}</h1></a>
+                    <a style="margin-top: 14%; width: 40px; height: 40px;" onclick="remove_rec('{{forloop.counter}}' , '{{x.slug}}')" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a>
+
+                </div>
+                
 
                 <div class="main" style="width: 17%; border: none !important;" >
                     <i class="fas fa-star"></i>
@@ -48,7 +52,7 @@
               
                
                 <br>
-                <a style="position: relative; bottom: 75%; left: 100%;" onclick="remove_rec('{{forloop.counter}}' , '{{x.slug}}')" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a>
+                <!-- <a style="position: relative;  bottom: 70%; right: -88%;" onclick="remove_rec('{{forloop.counter}}' , '{{x.slug}}')" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a> -->
 
                
             </div>

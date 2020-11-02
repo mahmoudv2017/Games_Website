@@ -28,6 +28,10 @@
                 
            
             
+            
+
+
+
             <div class="score-area" style="display: grid; grid-template-columns: 10% 10%; position: static;">
 
             
@@ -39,20 +43,16 @@
                     <div class="ratings_count">
                         {{data.ratings_count}}
                     </div>
-
+            
                 </div>
-                
 
                 <div class="user_score" style="display: grid; grid-template-columns: min-content 5%; margin-left: 4%; margin-top: 7%;" >
-                    <div   role="{{ratinger.rating}}" id="{{data.slug}}" class="my-rating"></div>
-                    <i class="fas fa-star user_star" style="color: gray;"></i>
-                    <span class="his_rating " style="margin-left: 70%; top: -13%;">rate this</span>
-                    <div >
-                        You
-                    </div>
+                    {% include "ratingg.html" %}
+            
                 </div>
-
+            
             </div>
+
             {% if not user.is_authenticated %}
           
                 <script> document.querySelector('.score-area').style.zIndex = "-1"
@@ -208,7 +208,7 @@
             
             <h3 style="margin-bottom: 4%; ">Comments</h3>
         
-            <form id="add_me" action="/id={{data.slug}}/AddComment/NewComment/reply=false" method="post" style="display: grid; grid-template-columns: 70px 70%">
+            <form id="add_me" action="/id={{data.name}}/AddComment/NewComment/reply=false" method="post" style="display: grid; grid-template-columns: 70px 70%">
                 {% csrf_token %}
         
                 <div style="width: 4%;" >
@@ -269,7 +269,7 @@
                         <div class="dropdown-menu" style="width: 28%;">
                         
                             <a onclick= "edit_comment('{{ forloop.counter }}')" class="btn btn-sm btn-success dropdown-item">Edit Comment</a>
-                            <a onclick="Delete_comment({{forloop.counter}} , {{x.id}} , '{{data.slug}}')"  class="btn btn-sm btn-outline-danger dropdown-item">Delete Comment</a>
+                            <a onclick="Delete_comment({{forloop.counter}} , {{x.id}} , '{{data.name}}')"  class="btn btn-sm btn-outline-danger dropdown-item">Delete Comment</a>
             
                         </div>
                     </div>
@@ -431,7 +431,7 @@
                         
 
                             <div class="comment_former hide" >
-                                <form  action="/id={{ data.slug }}/EditComment/{{ x.id }}/reply=false" method="POST" style=" margin-bottom: 5%;" >
+                                <form  action="/id={{ data.name }}/EditComment/{{ x.id }}/reply=false" method="POST" style=" margin-bottom: 5%;" >
                                 {% csrf_token %}
                         
                                 <input type='text'  name='comment' style=' width: 100%;' class='form-control' placeholder="Type a Comment" id= "id_comment " required value="{{x.comment}}">
@@ -487,7 +487,7 @@
 
       $.ajax({
             type : 'POST',
-            url :  '/id={{data.slug}}/AddComment/NewComment/reply=false',
+            url :  '/id={{data.name}}/AddComment/NewComment/reply=false',
             data : {
                 comment : $('#actual_comment').val(),
                 csrfmiddlewaretoken : $('input[name = csrfmiddlewaretoken]').val()
@@ -526,7 +526,7 @@
       $.ajax({
 
         type : 'POST',
-        url :  '/id={{ data.slug }}/EditComment/'+comment_id+'/reply='+username,
+        url :  '/id={{ data.name}}/EditComment/'+comment_id+'/reply='+username,
         data : {
             comment : $('.actual_reply').val(),
             csrfmiddlewaretoken : $('input[name = csrfmiddlewaretoken]').val()

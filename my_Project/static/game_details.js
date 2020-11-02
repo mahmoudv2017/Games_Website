@@ -120,8 +120,9 @@ function Delete_comment( index, id , slug){
 
     choosen_one = $(".my-rating")[0].attributes.role.nodeValue
     choosen_one2 = 0
+    user_star = document.querySelector(".user_star")
     his_rating = document.querySelector(".his_rating")
-
+    flag = false
  $(".my-rating").starRating({
     starSize: 25,
     strokeColor: '#894A00',
@@ -131,8 +132,11 @@ function Delete_comment( index, id , slug){
     callback: function(currentRating, $el){
         // make a server call here
         console.log("clicked")
+        document.querySelector('.user_score .my-rating').style.display = "none"
+        flag = true
         choosen_one2 = currentRating
         his_rating = currentRating
+        document.querySelector(".user_star").style.color = "#278bd8"
    
         req = $.ajax({
             type : 'POST',
@@ -144,8 +148,10 @@ function Delete_comment( index, id , slug){
         })
 
         req.done(function(data){
-            console.log(data)
-            $("body").html(data)
+            console.log("added to rating")
+
+            
+           
             
         })
         
@@ -169,7 +175,7 @@ function Delete_comment( index, id , slug){
 
 count = 0;
 past_rate = document.querySelector(".api_rating").textContent
-user_star = document.querySelector(".user_star")
+
 
 
 
@@ -211,16 +217,19 @@ document.querySelectorAll(".my-rating polygon").forEach(item => {
 
 document.querySelector('.my-rating').addEventListener("mouseleave" , function(){
     document.querySelector(".user_star").classList.toggle('styler2')
-    reset()
-    reset_user_star()
+    if(!flag){
+        reset()
+        reset_user_star()
+    }
+    
 
 })
 
 function reset(){
     if(choosen_one == 0){
-        his_rating.classList.toggle('api_rating')
-        his_rating.classList.toggle('styler2')
-        his_rating.textContent = "rate this"
+        document.querySelector(".his_rating").classList.toggle('api_rating')
+        document.querySelector(".his_rating").classList.toggle('styler2')
+        document.querySelector(".his_rating").textContent = "rate this"
     }
     
 }

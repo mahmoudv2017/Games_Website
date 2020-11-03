@@ -7,12 +7,12 @@
 
 {% if type == "games" %}
 <div style="
-margin-left: 5%;
-background-color: hsl(0deg 0% 0% / 5%);
-border-radius: 14px;
-padding: 4px;
-text-align: center;
-width: 19%;">
+    margin-left: 5%;
+    background-color: hsl(0deg 0% 0% / 5%);
+    border-radius: 14px;
+    padding: 4px;
+    text-align: center;
+    width: 19%;">
 
     <label for="order">Choose The Order</label>
     <select style="margin-bottom: 2%; margin-top: 2%; border: none; background-color: hsla(0,0%,100%,.07);" name="order" onclick="order_me()">
@@ -112,18 +112,16 @@ width: 19%;">
                                 {% endfor %}
 
                                 
-                                <div style="display:flex;" onclick="add_to_cart('{{x.slug}}' , '{{forloop.counter}}')" class="ooo adder_of_cart "  ><i class="fas fa-plus"></i></div>
+                                <div style="display:flex;" onclick="add_to_cart('{{x.slug}}' , '{{forloop.counter}}')" class="ooo adder_of_cart "  ></div>
                                
                                 <script>
                                     if(!flagg){
                                         console.log('not flag')
                                         document.querySelectorAll('.ooo')[ parseInt('{{forloop.counter}}')  - 1].classList.toggle('not_added')
-//                                         document.querySelectorAll('.ooo')[ parseInt('{{forloop.counter}}')  - 1].innerHTML = '<div class="loadingio-spinner-spinner-aostws7aiwm"><div class="ldio-bqw1e47vf7">'+
-// '<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>'
 
                                         
                                     }else{
-                                        document.querySelectorAll('.fa-plus')[ parseInt('{{forloop.counter}}')  - 1].style.display = "none"
+                                     
                                         document.querySelectorAll('.ooo')[ parseInt('{{forloop.counter}}')  - 1].classList.toggle('added')
                                     }
                                 </script>
@@ -132,7 +130,7 @@ width: 19%;">
 
                     
                             {% else %}
-                                <div class="adder_of_cart not_added"  ><i class="fas fa-plus"></i></div>
+                                <div class="adder_of_cart not_added"  ></div>
                             {% endif %}
 
                                 

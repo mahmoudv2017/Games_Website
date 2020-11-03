@@ -81,6 +81,8 @@ function order_me(){
     if(selector != 'ee'){
        
        window.location.href = "order="+selector
+
+      
     }
 }
 

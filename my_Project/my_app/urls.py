@@ -12,6 +12,7 @@ urlpatterns = [
 
     #Home Page
     path('type=<value>/page=<page_num>', views.home , name = 'home'),
+  
     path('type=<value>/order=<order>', views.home , name = 'home'),
     path('search=<value>/order=<order>', views.home , name = 'home'),
     path("platform=<value>",views.home , name = "home"),
@@ -24,6 +25,7 @@ urlpatterns = [
     path("logout" , views.logging_out , name = 'logout'),
     path("login" , views.logging_in , name = "login"),
     path("id=<value>/<title>/<comment_id>/reply=<reply>" , views.new_comment , name = "AddComment"),
+ 
     path("id=<value>/Current_Rating=<rating>" , views.rating_reg , name = "rating_request"),
     
 

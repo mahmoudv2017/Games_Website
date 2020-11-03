@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
 
 
-
+falgger = True
 
 def carter(req):
     
@@ -54,7 +54,15 @@ page_num_details = '0'
 
 
 
-
+def auth2(req ,rendering_data ):
+    if auth(req):
+        rendering_data["user_profile"] = User_Info.objects.filter(user = req.user).get()
+        try:
+            my_cart = Cart.objects.filter(user = req.user)
+          
+            rendering_data["cart"] = Cart.objects.filter(user = req.user)
+        except Cart.DoesNotExist:
+            f = False
 
 # Create your views here.
 
@@ -67,7 +75,7 @@ def calculate_url(type):
 
    
     typer = type.replace(" ","%20")
-    print("type isssssssssssssssss" + typer)
+
     url = "https://api.rawg.io/api/"+typer
   
     print("ssssssssss" + url)
@@ -88,10 +96,12 @@ def calculate_date(delay):
 def searcher(req,value,page_num = "1"):
    # value = slugify(value)
 
-    print(value)
+
     global data
     global old_typer
+    global falgger
 
+    falgger = True
     old_typer = ""
     
     y = 0
@@ -101,14 +111,17 @@ def searcher(req,value,page_num = "1"):
         
     }
 
+    
+
     if(page_num != "games" and page_num != "1"):
         data = calculate_url("games?"+page_num+"="+value)
         rendering_data['names'] = data
-        if auth(req):
-            rendering_data["user_profile"] = User_Info.objects.filter(user = req.user).get()
+        auth2(req,rendering_data)
         rendering_data['type']= "games"
         return render(req,"home.html" , rendering_data)
 
+
+    
     if(page_num == "1"):
         data = calculate_url("games?search="+value)
     else:
@@ -120,11 +133,9 @@ def searcher(req,value,page_num = "1"):
         
     }
 
-  
-
-    if(auth(req)):
-        rendering_data["user_profile"] = User_Info.objects.filter(user = req.user).get()
-        rendering_data["cart"] =  carter(req)
+   
+    auth2(req,rendering_data)
+        
     rendering_data['names'] = data
     rendering_data['type'] = "games"
     return render(req,"home.html" , rendering_data)
@@ -134,6 +145,7 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
     global x
     global url
     global typer
+    global falgger
     global old_typer
     
     rendering_data = {
@@ -143,23 +155,25 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
         
     }
 
-    print("url : "+url)
-    print(typer)
-    print("the page num is" + page_num)
+  
     f = False
     my_cart = 0
     if(auth(req)):
+        print("Auth Successfull")
         if(User_Info.objects.filter(user = req.user).get() ):
             rendering_data["user_profile"] = User_Info.objects.filter(user = req.user).get() 
+            print("outsideeeeeeee")
         try:
             my_cart = Cart.objects.filter(user = req.user)
-            f = True
+            print("insideeeeeeeee")
+            rendering_data["cart"] = Cart.objects.filter(user = req.user)
         except Cart.DoesNotExist:
             f = False
+    else:
+        print("auth failed")
+        
 
-        if(f):
-
-            rendering_data["cart"] = Cart.objects.filter(user = req.user) 
+             
         
        
   
@@ -169,14 +183,15 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
     if(page_num != 'more'):
         if(order != "nothing"):
             x = typer
-            
+            print("old+typer is " + old_typer)
+            print("typer is " + x)
             if(old_typer != ""):
                 rendering_data['names'] = data = calculate_url(old_typer+"&ordering=-"+order)
             else:
                 rendering_data['names'] = data = calculate_url(typer+"&ordering=-"+order)
 
-           
-            old_typer = ""
+            #rendering_data['names'] = data = calculate_url(typer+"&ordering=-"+order)
+            #old_typer = ""
 
             typer = x
             rendering_data['type'] = 'games'
@@ -184,7 +199,7 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
 
         if value == "last_week" or value == "last_month":
             result_data = calculate_date(value)
-         
+            falgger = True
             data = calculate_url('games?'+result_data)
             value = "games"
 
@@ -255,15 +270,19 @@ def register(req):
     my_dic["image"] = data["results"][x3[5]]
     return render(req,"register.html",my_dic)
 
-def details(req,value):
-
+def details(req,value ):
+    global falgger
     global data
     global typer
     global old_typer
-  
-
-
-    old_typer = typer
+    
+    name = value
+    print("the name is " + name)
+    print("the typer is " + typer)
+    print("the old_typer is " + old_typer)
+    if(falgger):
+        old_typer = typer
+        falgger = False
   
     
     data = calculate_url("games?search="+value)
@@ -292,11 +311,11 @@ def details(req,value):
            
             similar_item = calculate_url(urler + url2[:-1])
             
-     
+            print("the name2 is " + name)
             rendering_data = {
                 'replies' : Comments_reply.objects.all() , 
                 'similar_items' : similar_item["results"],
-                'data' : x , 'comments' : Comments.objects.filter(game_slug = value).order_by('-date_added') , 
+                'data' : x , 'comments' : Comments.objects.filter(game_slug = name).order_by('-date_added') , 
                 'comment_form' : comments_form() , 
                 "user_profile" : user,
                 'average' : average
@@ -304,7 +323,8 @@ def details(req,value):
             if auth(req):
              
                 try:
-                    query = user_rating.objects.filter(user = req.user ,game_slug = slugify(value) )
+                    print("the value in details is " + value )
+                    query = user_rating.objects.filter(user = req.user ,game_slug = name )
                     print("the value is " + slugify(value))
                     print(query.values())
                     rendering_data['ratinger'] = query.get()
@@ -370,9 +390,10 @@ def settings(req):
 
     return render(req,"user_settings.html" , {'user_profile' : User_Info.objects.filter(user = req.user).get() })
 
-def new_comment(req,value,comment_id = '-1',title="" , reply="false"):
+def new_comment(req,value,comment_id = '-1',title="" , reply="false" ):
 
     print('value :' + value )
+
     slug = slugify(value)
     print('title :' + title )
     print('id :' + comment_id )
@@ -426,20 +447,26 @@ def new_comment(req,value,comment_id = '-1',title="" , reply="false"):
         if comment_form.is_valid():
             print("ssss")
             if reply != "false":
-            
+                
                 Comments.objects.filter(id = comment_id).update(has_reply=True)
                 Comments_reply.objects.get_or_create(parent_username = reply , reply = req.POST.get("comment") ,   parent_id = comment_id ,   user = req.user ,  profile_image = User_Info.objects.filter(user = req.user).get().profile_image  )[0]
 
                 return redirect("/game="+value)
           
             if title == "AddComment":
-                
-                comment = Comments.objects.get_or_create(comment = req.POST.get("comment") , user = req.user , game_slug = slug , profile_image = User_Info.objects.filter(user = req.user).get().profile_image)[0]
+                print("adddd new comenttt")
+                comment = Comments.objects.get_or_create(comment = req.POST.get("comment") , user = req.user , game_slug = value , profile_image = User_Info.objects.filter(user = req.user).get().profile_image)[0]
             else:
                
                 comment = Comments.objects.filter(id = comment_id).update(comment=comment_form.cleaned_data["comment"])
-                
+            
             return redirect("/game="+value)
+        else:
+            print("form not valid")
+
+    else : 
+        print("Method not post")
+
 
     Comments.objects.filter(id = comment_id).delete()
     return redirect("/game="+value)
@@ -476,12 +503,8 @@ def logging_out(req):
 
 
 def rating_reg(req,value,rating):
-    data = {
-        'slug' : value
-    }
-    ratinger = {
-        'rating' : 0
-    }
+   
+    print("the value is " + value)
     if req.method == "POST":
 
        query = user_rating.objects.filter(user = req.user , game_slug = value)
@@ -492,9 +515,7 @@ def rating_reg(req,value,rating):
             user_rating.objects.get_or_create(user = req.user , game_slug = value , rating = rating )[0]
 
        
-       ratinger['rating'] = rating
-       print(ratinger)
-       return render(req,"ratingg.html" , { 'data' : data , 'ratinger'  :  ratinger})
+       
 
     
 

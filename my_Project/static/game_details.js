@@ -148,6 +148,7 @@ function Delete_comment( index, id , slug){
         })
 
         req.done(function(data){
+            console.log(data)
             console.log("added to rating")
 
             

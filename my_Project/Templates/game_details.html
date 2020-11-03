@@ -208,7 +208,7 @@
             
             <h3 style="margin-bottom: 4%; ">Comments</h3>
         
-            <form id="add_me" action="/id={{data.name}}/AddComment/NewComment/reply=false" method="post" style="display: grid; grid-template-columns: 70px 70%">
+            <form id="add_me" action="/id={{data.slug}}/AddComment/NewComment/reply=false" method="post" style="display: grid; grid-template-columns: 70px 70%">
                 {% csrf_token %}
         
                 <div style="width: 4%;" >
@@ -464,7 +464,7 @@
 
 <script>
 
-   
+    name = document.querySelector('.game-text h1').innerText
 
    function show_my_rating(){
        current_ratting =  $('.my-rating').starRating('getRating')
@@ -484,10 +484,11 @@
     $('#add_me').on("submit",function(e){
       e.preventDefault()
 
-
+        console.log("inside addd ) me")
+        
       $.ajax({
             type : 'POST',
-            url :  '/id={{data.name}}/AddComment/NewComment/reply=false',
+            url :  '/id='+name+'/AddComment/NewComment/reply=false',
             data : {
                 comment : $('#actual_comment').val(),
                 csrfmiddlewaretoken : $('input[name = csrfmiddlewaretoken]').val()
@@ -526,7 +527,7 @@
       $.ajax({
 
         type : 'POST',
-        url :  '/id={{ data.name}}/EditComment/'+comment_id+'/reply='+username,
+        url :  '/id='+name+'/EditComment/'+comment_id+'/reply='+username,
         data : {
             comment : document.querySelectorAll('.actual_reply')[index-1].value,
             csrfmiddlewaretoken : $('input[name = csrfmiddlewaretoken]').val()

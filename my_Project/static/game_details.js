@@ -8,7 +8,13 @@
 
 // })
 t = false
-function like(index,type , comment_id , slug){
+name = document.querySelector('.game-text h1').innerText
+if(name.includes("/")){
+    name = $(".game-text h1")[0].attributes.role.nodeValue
+}
+function like(index,type , comment_id ){
+
+    slug = name
     var vtn_up  = document.querySelectorAll('.fa-thumbs-up')[index-1]
     var vtn_down  = document.querySelectorAll('.fa-thumbs-down')[index-1]
     if(vtn_up.style.color != "blue" && vtn_down.style.color != "red"){

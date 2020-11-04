@@ -150,9 +150,7 @@ function go_details(slug){
 
 function take_me_details(type , slug , index){
     game_name = ""
-    console.log("the type is " + type)
-    console.log("the slug is " + slug)
-    console.log("the index is " + index)
+   
     if(type == "home"){
         game_name = document.querySelectorAll(".titlerr_of_card")[index-1].innerText
     }else{

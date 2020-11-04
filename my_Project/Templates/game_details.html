@@ -22,7 +22,7 @@
         <div class="game-text" style=" max-width: 70%;">
     
             
-            <h1 style="margin-bottom: 7%; color: #211b1b;">{{ data.name }}</h1>
+            <h1 role="{{data.slug}}" style="margin-bottom: 7%; color: #211b1b;">{{ data.name }}</h1>
            
 
                 
@@ -299,7 +299,7 @@
                                         {% for liked_id in user_profile.liked_comments %}
                                         
                                             {% if liked_id|converter == x.id %}
-                                                <i style="color:blue; position: relative; cursor: pointer;"  onclick="like({{forloop.counter}},'up' , {{x.id}} , '{{x.game_slug}}')" class="far fa-thumbs-up"></i>
+                                                <i style="color:blue; position: relative; cursor: pointer;"  onclick="like({{forloop.counter}},'up' , {{x.id}} )" class="far fa-thumbs-up"></i>
                                                 {% comment %} else statment {% endcomment %}
                                                 <script>
                                                     f = false
@@ -311,7 +311,7 @@
                                        
                                   
                                             <div class="otheress">
-                                                <i style="cursor: pointer; position: relative; " onclick="like({{forloop.counter}},'up' , {{x.id}} , '{{x.game_slug}}')" class="far fa-thumbs-up seconder"></i>
+                                                <i style="cursor: pointer; position: relative; " onclick="like({{forloop.counter}},'up' , {{x.id}} )" class="far fa-thumbs-up seconder"></i>
                                             </div>
 
                                             <script>
@@ -321,7 +321,7 @@
                                                 }
                                             </script>
                                     {% else %}
-                                        <i style="position: relative; z-index: -1;" onclick="like({{forloop.counter}},'up',{{x.id}} , '{{x.game_slug}}' )" class="far fa-thumbs-up"></i>
+                                        <i style="position: relative; z-index: -1;" onclick="like({{forloop.counter}},'up',{{x.id}}  )" class="far fa-thumbs-up"></i>
                                     {% endif %}
                                     
                                     <p class="like_counter" style="font-size: 17px;">{{x.like}}</p>
@@ -336,7 +336,7 @@
                                         {% for disliked_id in user_profile.disliked_comments %}
                                         
                                             {% if disliked_id|converter == x.id %}
-                                                <i style="color:red; cursor: pointer; position: relative;"  onclick="like({{forloop.counter}},'down' , {{x.id}} , '{{x.game_slug}}')" class="far fa-thumbs-down"></i>
+                                                <i style="color:red; cursor: pointer; position: relative;"  onclick="like({{forloop.counter}},'down' , {{x.id}} )" class="far fa-thumbs-down"></i>
                                                 {% comment %} else statment {% endcomment %}
                                                 <script>
                                                     f2 = false
@@ -348,7 +348,7 @@
                                        
                                   
                                             <div class="otheress2">
-                                                <i style="cursor: pointer; position: relative;" onclick="like({{forloop.counter}},'down' , {{x.id}} , '{{x.game_slug}}')" class="far fa-thumbs-down "></i>
+                                                <i style="cursor: pointer; position: relative;" onclick="like({{forloop.counter}},'down' , {{x.id}} )" class="far fa-thumbs-down "></i>
                                             </div>
                                             
                                             <script>
@@ -358,7 +358,7 @@
                                                 }
                                             </script>
                                     {% else %}
-                                        <i style="position: relative; z-index: -1;" onclick="like({{forloop.counter}},'down',{{x.id}} , '{{x.game_slug}}' )" class="far fa-thumbs-down"></i>
+                                        <i style="position: relative; z-index: -1;" onclick="like({{forloop.counter}},'down',{{x.id}} )" class="far fa-thumbs-down"></i>
                                     {% endif %}
                                     
                                    
@@ -465,6 +465,9 @@
 <script>
 
     name = document.querySelector('.game-text h1').innerText
+    if(name.includes("/")){
+        name = $(".game-text h1")[0].attributes.role.nodeValue
+    }
 
    function show_my_rating(){
        current_ratting =  $('.my-rating').starRating('getRating')
@@ -484,7 +487,9 @@
     $('#add_me').on("submit",function(e){
       e.preventDefault()
 
-        console.log("inside addd ) me")
+      if(name.includes("/")){
+        name = $(".game-text h1")[0].attributes.role.nodeValue
+      }
         
       $.ajax({
             type : 'POST',
@@ -521,7 +526,7 @@
     function reply_submission(username , comment_id ,index){
 
 
-        
+      
         
 
       $.ajax({

@@ -24,7 +24,7 @@
             <div class="column_2" style="margin-left:5%;">
                 
                 <div style="display: grid; grid-template-columns: 80% 20%;">
-                    <a href="/game={{x.title}}">  <h1 style="color:white; margin:0;"  class="title">{{x.title}}</h1></a>
+                    <a onclick="take_me_details('cart' , '{{x.slug}}' , '{{forloop.counter}}')">  <h1 style="color:white; margin:0; cursor: pointer;"  class="title">{{x.title}}</h1></a>
                     <a style="margin-top: 14%; width: 40px; height: 40px;" onclick="remove_rec('{{forloop.counter}}' , '{{x.slug}}')" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a>
 
                 </div>

@@ -69,10 +69,6 @@ def auth2(req ,rendering_data ):
 def calculate_url(type):
     global url
     global typer
-
-
-
-
    
     typer = type.replace(" ","%20")
 
@@ -300,7 +296,7 @@ def details(req,value ):
     average = 0
     for x in data["results"]:
        
-        if(str(x["name"]) == value):
+        if(str(x["name"]) == value) or (str(x["slug"]) == value):
             print("the name is " + value)
             value = slugify(value)
             for y in x["genres"]:

@@ -10,9 +10,7 @@ function added(index){
     document.querySelectorAll('.fa-plus')[index-1].classList.toggle("hiderr")
 }
 
-function detailser(url){
-    window.location.href = url
-}
+
 function add_to_cart(slug,index){
     console.log("the index is " + index)
     flag = document.querySelectorAll('.ooo')[ index  - 1].classList.contains('added')
@@ -149,3 +147,23 @@ function go_details(slug){
 
    
 // })
+
+function take_me_details(type , slug , index){
+    game_name = ""
+    console.log("the type is " + type)
+    console.log("the slug is " + slug)
+    console.log("the index is " + index)
+    if(type == "home"){
+        game_name = document.querySelectorAll(".titlerr_of_card")[index-1].innerText
+    }else{
+        game_name = document.querySelectorAll(".column_2 .title")[index-1].innerText
+    }
+    if(game_name.includes("/")  ){
+        console.log("the slug is " + slug)
+        window.location.href = "/game="+slug
+    }else{
+        console.log("the name is " + game_name)
+        window.location.href = "/game="+game_name
+    }
+   
+}

@@ -51,7 +51,7 @@ function openNav() {
     })
 
     setTimeout(function(){
-        console.log('asdasd')
+ 
         document.querySelectorAll('path').forEach(item => {
             item.style.display = 'block'
         })

@@ -147,7 +147,7 @@
 
         {% if data.clip != null %}
              <div class="clibs" style="margin-bottom: 4%;" >
-                 <video style="width:max-content ; min-width:80%;" onloadeddata="playvideo()" class="video" src="{{data.clip.clips.full}}" controls></video> 
+                 <video style="width:max-content ; min-width:80%;"  class="video" src="{{data.clip.clips.full}}" controls></video> 
             </div> 
 
         {% else %}
@@ -564,6 +564,12 @@
 
 
 {% block script %}
-    <script src="{% static 'game_details.js' %}"></script>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="{% static 'my_jquery.js' %}"></script>
     <script src="{% static 'rating.min.js' %}"></script>
+
+    <script src="{% static 'game_details.js' %}"></script>
+    
 {% endblock script %}

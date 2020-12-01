@@ -7,12 +7,27 @@ var items = document.querySelectorAll(".page-item")
 function added(index){
     document.querySelectorAll('.adder_of_cart')[index-1].classList.toggle("not_added")
     document.querySelectorAll('.adder_of_cart')[index-1].classList.toggle("added")
-    document.querySelectorAll('.fa-plus')[index-1].classList.toggle("hiderr")
+  
+}
+function take_me_details(type , slug , index){
+    game_name = ""
+
+    if(type == "home"){
+        game_name = document.querySelectorAll(".titlerr_of_card")[index-1].innerText
+    }else{
+        game_name = document.querySelectorAll(".column_2 .title")[index-1].innerText
+    }
+    if(game_name.includes("/")  ){
+    
+        window.location.href = "/game="+slug
+    }else{
+       
+        window.location.href = "/game="+game_name
+    }
+
 }
 
-
 function add_to_cart(slug,index){
-    console.log("the index is " + index)
     flag = document.querySelectorAll('.ooo')[ index  - 1].classList.contains('added')
     if(flag){
 
@@ -20,7 +35,7 @@ function add_to_cart(slug,index){
             type:"GET",
             url : "/cart/id="+slug+"/delete",
             success:function(){
-                console.log('deleted')
+             
                 added(index)
             }
         })
@@ -31,7 +46,7 @@ function add_to_cart(slug,index){
             type: "GET" , 
             url : "/cart/id="+slug,
             success : function(reponse){
-                console.log("added to the cart")
+             
                 added(index)
             }
         })
@@ -63,7 +78,7 @@ function give_me_more(key){
 
     req.done(function(data){
         rows = document.querySelectorAll('.row2')
-        console.log(rows[rows.length-1])
+
     })
 }
 
@@ -100,9 +115,7 @@ function order_me(){
 }
 
 
-function try_me(index){
-  console.log(  document.querySelectorAll(".fideo")[index-1].style.height)
-}
+
 function play_me(index,value){
 
     var nodes = Array.prototype.slice.call( document.getElementsByClassName('image_of_card'));

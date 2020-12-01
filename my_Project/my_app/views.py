@@ -362,7 +362,7 @@ def details(req,value ):
                 'average' : average
             }
             if auth(req):
-             
+     
                 try:
                     query = user_rating.objects.filter(user = req.user ,game_slug = name )
                     rendering_data['ratinger'] = query.get()

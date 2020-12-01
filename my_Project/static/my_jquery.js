@@ -93,7 +93,7 @@ $('.game_pc').owlCarousel({
 
 
 $('.owl-carousel').on('click' , function(e){
-  console.log(e)
+
   document.querySelectorAll('owl-carousel')[0].classList.add("grapperr")
 })
 

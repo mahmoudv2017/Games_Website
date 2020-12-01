@@ -69,13 +69,11 @@
         
     <script>
             function take_me_details(type , slug , index){
-            game_name = ""
         
-            if(type == "home"){
-                game_name = document.querySelectorAll(".titlerr_of_card")[index-1].innerText
-            }else{
-                game_name = document.querySelectorAll(".column_2 .title")[index-1].innerText
-            }
+        
+           
+            game_name = document.querySelectorAll(".column_2 .title")[index-1].innerText
+            
             if(game_name.includes("/")  ){
             
                 window.location.href = "/game="+slug
@@ -86,7 +84,7 @@
         
         }
         function remove_rec(index,slug){
-            console.log("before and agfter")
+       
             var diver =  document.querySelectorAll(".rower")[index-1].classList.toggle("swiper")
  
             // setTimeout(function(){
@@ -100,7 +98,7 @@
                 type:"GET",
                 url : "/cart/id="+slug+"/delete",
                 success:function(reponse){
-                    console.log('deleted')
+               
                     $('body').html(reponse)
                 }
             })

@@ -20,7 +20,7 @@ function like(index,type , comment_id ){
     if(vtn_up.style.color != "blue" && vtn_down.style.color != "red"){
        vtn_up = vtn_up.style.zIndex = "-1"
        vtn_down = vtn_down.style.zIndex = "-1"
-       console.log(vtn_up)
+
         if(type == "up"){
           
 
@@ -31,7 +31,7 @@ function like(index,type , comment_id ){
     
                     document.querySelectorAll('.fa-thumbs-up')[index-1].style.color = "blue";
                     document.querySelectorAll('.like_counter')[index-1].innerText = parseInt(document.querySelectorAll('.like_counter')[index-1].innerText) + 1
-                    console.log(reponse)
+               
                 }
                 
                 
@@ -137,13 +137,13 @@ function Delete_comment( index, id , slug){
   
     callback: function(currentRating, $el){
         // make a server call here
-        console.log("clicked")
+      
         document.querySelector('.user_score .my-rating').style.display = "none"
         flag = true
         choosen_one2 = currentRating
         his_rating = currentRating
         document.querySelector(".user_star").style.color = "#278bd8"
-   
+
         req = $.ajax({
             type : 'POST',
             url : '/id='+$el[0].id+"/Current_Rating="+currentRating,
@@ -153,14 +153,7 @@ function Delete_comment( index, id , slug){
             },
         })
 
-        req.done(function(data){
-            console.log(data)
-            console.log("added to rating")
-
-            
-           
-            
-        })
+       
         
     }
     });
@@ -244,7 +237,7 @@ function reset(){
 function reset_user_star(){
     setTimeout(function(){
         document.querySelector('.user_star').addEventListener("mouseenter" , function(){
-            console.log('s')
+     
             document.querySelector('.user_score .my-rating').style.display = "block"
         })
 
@@ -265,7 +258,7 @@ function reset_user_star(){
 
 rater = document.querySelector('.my-rating')
 rater.addEventListener("mouseleave" , function(e){
-    console.log("ss")
+  
     rater.style.display = "none"
     reset_user_star()
 })

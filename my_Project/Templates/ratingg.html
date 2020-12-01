@@ -1,8 +1,12 @@
 {% load custom_tagger %}
 
 
-
+   {% if "/" in data.name %}
+    <div role="{{ratinger.rating}}" id="{{data.slug}}" class="my-rating"></div>
+    {% else %}
     <div role="{{ratinger.rating}}" id="{{data.name}}" class="my-rating"></div>
+   {% endif %}
+    
 
     
     <i class="fas fa-star user_star" style="color: gray;"></i>

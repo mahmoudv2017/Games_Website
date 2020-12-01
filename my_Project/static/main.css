@@ -132,12 +132,14 @@ body{
     .col-lg-3{
        min-width: 50%;
     }
+    
 }
 
 @media (min-width:1338px) and (max-width:1505px){
     .col-lg-3{
         min-width: 30%;
     }
+   
 }
  @media (min-width: 1620px) {
     .col-lg-3{

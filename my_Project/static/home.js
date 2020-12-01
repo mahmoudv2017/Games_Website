@@ -40,15 +40,30 @@ function add_to_cart(slug,index){
     
     
 }
-
+t = false
 function give_me_more(key){
-    $.ajax({
+    req = $.ajax({
         type : 'GET',
         url : "/type="+key+"/page=more",
         success : function(data){
-            console.log(data)
-            $("body").html(data)
+           
+            rows = document.querySelectorAll('.row2')
+            if(!t){
+                $('.row2').html(data)
+                t = true
+            }else{
+                rows[rows.length-1].innerHTML = data
+            }
+            
+           
+            
+           
         }
+    })
+
+    req.done(function(data){
+        rows = document.querySelectorAll('.row2')
+        console.log(rows[rows.length-1])
     })
 }
 
@@ -62,7 +77,7 @@ window.addEventListener("scroll", function(){ // or window.addEventListener("scr
         if(st == 0){
             
             document.querySelector('.second').classList.remove("seconderr_fixed")
-            console.log('here')
+        
         }else{
             document.querySelector('.second').classList.add("seconderr_fixed")
         }
@@ -75,7 +90,7 @@ window.addEventListener("scroll", function(){ // or window.addEventListener("scr
 function order_me(){
     var selector = document.querySelector('select').value
 
-    console.log(selector)
+
     if(selector != 'ee'){
        
        window.location.href = "order="+selector
@@ -91,7 +106,7 @@ function try_me(index){
 function play_me(index,value){
 
     var nodes = Array.prototype.slice.call( document.getElementsByClassName('image_of_card'));
-    console.log(nodes.indexOf( value ))
+  
     index = nodes.indexOf( value )
     
     document.querySelectorAll(".fideo")[index].style.display = "block"
@@ -157,10 +172,10 @@ function take_me_details(type , slug , index){
         game_name = document.querySelectorAll(".column_2 .title")[index-1].innerText
     }
     if(game_name.includes("/")  ){
-        console.log("the slug is " + slug)
+      
         window.location.href = "/game="+slug
     }else{
-        console.log("the name is " + game_name)
+       
         window.location.href = "/game="+game_name
     }
    

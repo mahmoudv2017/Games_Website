@@ -8,7 +8,7 @@ import platform,math
 import random
 
 
-import getmac
+
 from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
@@ -65,17 +65,24 @@ def auth2(req ,rendering_data ):
             f = False
 
 # Create your views here.
-
+home_url = ""
+home_flag = True
 def calculate_url(type):
     global url
     global typer
+    global home_flag
+    global home_url
    
+    
     typer = type.replace(" ","%20")
 
     url = "https://api.rawg.io/api/"+typer
-  
-    print("ssssssssss" + url)
-   
+    if(home_flag):
+        home_url = url
+        home_flag = True
+        
+    print("main url : " + url)
+    print("home_url : " + home_url)
     reponse = urllib.request.urlopen(url)
     return json.load(reponse)
 
@@ -102,9 +109,9 @@ def searcher(req,value,page_num = "1"):
     
     y = 0
     rendering_data = {
-        'names' : "sasd"
+        'names' : "sasd",
      
-        
+        'page' : '1'
     }
 
     
@@ -125,7 +132,8 @@ def searcher(req,value,page_num = "1"):
     print("type : "+typer)
     rendering_data = {
         'names' : data["results"],
-        'pages' : ['1','2','3','4','5','6'],
+        'page' : '1'
+        
         
     }
 
@@ -136,18 +144,27 @@ def searcher(req,value,page_num = "1"):
     rendering_data['type'] = "games"
     return render(req,"home.html" , rendering_data)
 
+pager = 0
+
 def home(req , value = "null" , page_num = "1?" , search_term = "" , order="nothing"):
+
+    global home_flag
+    global home_url
     global data
     global x
     global url
     global typer
     global falgger
     global old_typer
+    global pager
+    
+
     
     rendering_data = {
         'names' : data,
-        'pages' : x,
+        'page' : '1',
         'last' : 0,
+
         
     }
 
@@ -158,16 +175,12 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
         print("Auth Successfull")
         if(User_Info.objects.filter(user = req.user).get() ):
             rendering_data["user_profile"] = User_Info.objects.filter(user = req.user).get() 
-            print("outsideeeeeeee")
         try:
             my_cart = Cart.objects.filter(user = req.user)
-            print("insideeeeeeeee")
             rendering_data["cart"] = Cart.objects.filter(user = req.user)
         except Cart.DoesNotExist:
             f = False
-    else:
-        print("auth failed")
-        
+   
 
              
         
@@ -176,56 +189,87 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
 
     
     
-    if(page_num != 'more'):
-        if(order != "nothing"):
-            x = typer
-            print("old+typer is " + old_typer)
-            print("typer is " + x)
-            if(old_typer != ""):
-                rendering_data['names'] = data = calculate_url(old_typer+"&ordering=-"+order)
-            else:
-                rendering_data['names'] = data = calculate_url(typer+"&ordering=-"+order)
+    
+    if(order != "nothing"):
+        x = typer
+        print("old+typer is " + old_typer)
+        print("typer is " + x)
+        if(old_typer != ""):
+            rendering_data['names'] = data = calculate_url(old_typer+"&ordering=-"+order)
+        else:
+            rendering_data['names'] = data = calculate_url(typer+"&ordering=-"+order)
 
-            #rendering_data['names'] = data = calculate_url(typer+"&ordering=-"+order)
-            #old_typer = ""
+        #rendering_data['names'] = data = calculate_url(typer+"&ordering=-"+order)
+        #old_typer = ""
 
-            typer = x
-            rendering_data['type'] = 'games'
-            return render(req,'home.html',rendering_data)
+        typer = x
+        rendering_data['type'] = 'games'
+        return render(req,'home.html',rendering_data)
 
-        if value == "last_week" or value == "last_month":
-            result_data = calculate_date(value)
-            falgger = True
-            data = calculate_url('games?'+result_data)
-            value = "games"
-
-        
-        if value != "games":
-            data = calculate_url(value)
-
-        
-
-
-    else:
-        url2 = data["next"]
-
-        reponse = urllib.request.urlopen(url2)
-        data = json.load(reponse)
-        #return JsonResponse(data , safe = False)
+    if value == "last_week" or value == "last_month":
+        result_data = calculate_date(value)
+        #rendering_data['type2']  = value
+        falgger = True
+        data = calculate_url('games?'+result_data)
+        value = "games"
         rendering_data["names"] = data
-        rendering_data['type'] = value
-        return render(req,'home.html', rendering_data)
+        rendering_data['type']  = value
+        
+        rendering_data["page"] = '1'
+
     
 
-    if page_num == "1":
-        data = calculate_url("games?")
+        return render(req,'home.html' , rendering_data)
+
+        
+        
+
+        
 
 
+   
+    
+    
+    if page_num == "1" or page_num == "0":
+        home_flag = True
+        data = calculate_url(value+"?")
+        rendering_data["page"] = page_num
+        rendering_data["names"] = data
+        rendering_data['type'] = value
+     
 
+    else:
+        complete_url = home_url+"&page="+page_num
+        print("the url is " , home_url+"&page="+page_num)
+        print("the main is " , url+"&page="+page_num)
+        print("the type is " , value)
+        if(value == "games"):
+            print("lost & Found")
+        else:
+            complete_url = complete_url.replace("games" , value , 1)
+            print("not Found")
+            print("the new home_url is " + complete_url)
+        home_flag = True #set it to true to
+        url2 = complete_url
+        reponse = urllib.request.urlopen(url2)
+        data = json.load(reponse)
+        rendering_data["names"] = data
+        rendering_data["page"] = page_num
+        rendering_data['type']  = value
 
+        pager = page_num
+
+        return render(req,'home.html' , rendering_data)
+       
     rendering_data["names"] = data
-    rendering_data['type'] = value
-    return render(req,'home.html', rendering_data)
+    rendering_data['type']  = value
+
+    pager = page_num
+
+    return render(req,'home.html' , rendering_data)
+
+    
+   
 
 def register(req):
     user_info = user_form()
@@ -271,6 +315,7 @@ def details(req,value ):
     global data
     global typer
     global old_typer
+    global home_flag
     
     name = value
     print("the name is " + name)
@@ -280,8 +325,8 @@ def details(req,value ):
         old_typer = typer
         falgger = False
   
-    
-    data = calculate_url("games?search="+value)
+    home_flag = False
+    data2 = calculate_url("games?search="+value)
     
     
     genre = []
@@ -294,7 +339,7 @@ def details(req,value ):
         user = User_Info.objects.filter(user = req.user).get()
         
     average = 0
-    for x in data["results"]:
+    for x in data2["results"]:
        
         if(str(x["name"]) == value) or (str(x["slug"]) == value):
             print("the name is " + value)
@@ -319,10 +364,7 @@ def details(req,value ):
             if auth(req):
              
                 try:
-                    print("the value in details is " + value )
                     query = user_rating.objects.filter(user = req.user ,game_slug = name )
-                    print("the value is " + slugify(value))
-                    print(query.values())
                     rendering_data['ratinger'] = query.get()
                 except user_rating.DoesNotExist:
                     print('ss')
@@ -336,7 +378,7 @@ def details(req,value ):
 
 
 
-    return HttpResponse(data["results"])
+    return HttpResponse(data2["results"])
             
 def cart_view(req,value="",title=""):
 
@@ -442,11 +484,9 @@ def new_comment(req,value,comment_id = '-1',title="" , reply="false" ):
       
         if comment_form.is_valid():
             print("ssss")
-            if reply != "false":
-                
+            if reply != "false":            
                 Comments.objects.filter(id = comment_id).update(has_reply=True)
                 Comments_reply.objects.get_or_create(parent_username = reply , reply = req.POST.get("comment") ,   parent_id = comment_id ,   user = req.user ,  profile_image = User_Info.objects.filter(user = req.user).get().profile_image  )[0]
-
                 return redirect("/game="+value)
           
             if title == "AddComment":

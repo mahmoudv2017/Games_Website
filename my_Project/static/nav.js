@@ -30,7 +30,7 @@
 
   $(".search_of_form").on("submit" , function(e){
     e.preventDefault()
-    console.log(text.value)
+
     window.location.href = '/search='+text.value+"/page=1"
     // $.ajax({
 

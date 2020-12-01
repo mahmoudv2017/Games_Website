@@ -43,3 +43,15 @@
     border-right: 2px solid black;
 }
 
+@media(max-width:1400px) {
+    
+    .gallery , .game-content{
+        display: block !important;
+    }
+
+    video{
+        width: 100% !important;
+    }
+}
+
+

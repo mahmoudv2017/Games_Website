@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends 'nav.html' %}
+{% load static %}
 {% load custom_tagger %}
 {% block body_block %}
 <div style=" padding-bottom: 12.5%; margin-top:5%;  width:max-content ">
@@ -96,3 +97,8 @@
    
 </div>
 {% endblock body_block %}
+
+{% block script %}
+    
+    <script src="{% static 'rating.min.js' %}"></script>
+{% endblock script %}

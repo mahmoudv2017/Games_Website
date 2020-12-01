@@ -2,6 +2,7 @@
 
 {% extends 'nav.html' %}
 {% load custom_tagger %}
+{% load static %}
 {% block body_block %}
 
 
@@ -562,3 +563,7 @@
 {% endblock body_block %}
 
 
+{% block script %}
+    <script src="{% static 'game_details.js' %}"></script>
+    <script src="{% static 'rating.min.js' %}"></script>
+{% endblock script %}

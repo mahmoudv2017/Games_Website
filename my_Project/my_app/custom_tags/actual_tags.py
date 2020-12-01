@@ -11,6 +11,15 @@ def get_addressee():
 def define(val=None):
   return val
 
+@register.filter(name="timers")
+def timers(val):
+  return range(val)
+
+@register.filter(name="adder")
+def adder(val):
+  return int(val)+1
+
+
 @register.filter(name="converter")
 def converter(stringer):
     return int(stringer)

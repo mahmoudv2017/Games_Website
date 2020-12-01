@@ -32,39 +32,9 @@
     e.preventDefault()
 
     window.location.href = '/search='+text.value+"/page=1"
-    // $.ajax({
-
-        
-
-    //     type : "GET",
-    //     url : '/search='+text.value+"/page=1",
-    //     success:function(reponse){
-    //         console.log(reponse)
-    //         $("body").html(reponse)
-    //     }
-        
-    // })
+   
   })
-    // function search_me(){
-
-
-        
-    //     $.ajax({
-
-    //         type : "GET",
-    //         url : '/search='+text.value+"/page=1",
-    //         success:function(reponse){
-    //             console.log(reponse)
-    //         }
-            
-    //     })
-
-    //     if(text.value != ""){
-
-    //         tar.action =  tar.action+"search=" + text.value + "/page=1"
-
-    //     }
-    // }
+    
 
 
     function myFunction() {

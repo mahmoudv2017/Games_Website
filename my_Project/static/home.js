@@ -163,20 +163,3 @@ function go_details(slug){
    
 // })
 
-function take_me_details(type , slug , index){
-    game_name = ""
-   
-    if(type == "home"){
-        game_name = document.querySelectorAll(".titlerr_of_card")[index-1].innerText
-    }else{
-        game_name = document.querySelectorAll(".column_2 .title")[index-1].innerText
-    }
-    if(game_name.includes("/")  ){
-      
-        window.location.href = "/game="+slug
-    }else{
-       
-        window.location.href = "/game="+game_name
-    }
-   
-}

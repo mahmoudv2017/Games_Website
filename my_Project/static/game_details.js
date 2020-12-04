@@ -159,20 +159,6 @@ function Delete_comment( index, id , slug){
     });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 count = 0;
 past_rate = document.querySelector(".api_rating").textContent
 
@@ -264,3 +250,95 @@ rater.addEventListener("mouseleave" , function(e){
 })
 
 reset_user_star()
+
+
+
+
+
+
+
+
+
+
+
+
+function show_my_rating(){
+    current_ratting =  $('.my-rating').starRating('getRating')
+
+}
+
+ f = false
+ t = false
+ function small_menu(index){
+  
+     document.querySelectorAll(".dropdown-menu")[index-1].classList.toggle("show")
+ }
+
+
+
+
+ $('#add_me').on("submit",function(e){
+    
+   e.preventDefault()
+
+     
+   $.ajax({
+         type : 'POST',
+         url :  '/id='+name+'/AddComment/NewComment/reply=false',
+         data : {
+             comment : $('#actual_comment').val(),
+             csrfmiddlewaretoken : $('input[name = csrfmiddlewaretoken]').val()
+         },
+         success:function(data){
+            
+         
+             $(data).find(".comments");
+
+             $("body" ).html(data)
+         }
+         
+         
+     })
+     document.querySelector('#add_me').innerHTML = '<div></div><div style="background: rgba(0,0,0,0.0); width: 100%;" class="loadingio-spinner-bean-eater-jant8q2tnu"><div style="left: 50%;" class="ldio-ju6mpey5stg">'
+         +'<div><div></div><div></div><div></div></div><div><div></div><div></div><div></div></div>'
+         +'</div></div>'
+      
+         
+
+ })
+
+
+
+
+
+
+
+
+ function reply_submission(username , comment_id ,index){
+
+
+   
+     
+
+   $.ajax({
+
+     type : 'POST',
+     url :  '/id='+name+'/EditComment/'+comment_id+'/reply='+username,
+     data : {
+         comment : document.querySelectorAll('.actual_reply')[index-1].value,
+         csrfmiddlewaretoken : $('input[name = csrfmiddlewaretoken]').val()
+     },
+     success:function(data){
+         
+       
+         $("body" ).html(data)
+
+     }
+         
+         
+     })
+
+     document.querySelectorAll(".replierr")[index-1].innerHTML = "<h1>LOADING....<h1>"
+     
+
+}

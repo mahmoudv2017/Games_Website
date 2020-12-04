@@ -144,7 +144,7 @@ def searcher(req,value,page_num = "1"):
     rendering_data['type'] = "games"
     return render(req,"home.html" , rendering_data)
 
-pager = 0
+
 
 def home(req , value = "null" , page_num = "1?" , search_term = "" , order="nothing"):
 
@@ -156,7 +156,7 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
     global typer
     global falgger
     global old_typer
-    global pager
+
     
 
     
@@ -192,8 +192,7 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
     
     if(order != "nothing"):
         x = typer
-        print("old+typer is " + old_typer)
-        print("typer is " + x)
+      
         if(old_typer != ""):
             rendering_data['names'] = data = calculate_url(old_typer+"&ordering=-"+order)
         else:
@@ -247,8 +246,7 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
             print("lost & Found")
         else:
             complete_url = complete_url.replace("games" , value , 1)
-            print("not Found")
-            print("the new home_url is " + complete_url)
+           
         home_flag = True #set it to true to
         url2 = complete_url
         reponse = urllib.request.urlopen(url2)
@@ -257,14 +255,14 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
         rendering_data["page"] = page_num
         rendering_data['type']  = value
 
-        pager = page_num
+     
 
         return render(req,'home.html' , rendering_data)
        
     rendering_data["names"] = data
     rendering_data['type']  = value
 
-    pager = page_num
+ 
 
     return render(req,'home.html' , rendering_data)
 
@@ -383,7 +381,7 @@ def details(req,value ):
 def cart_view(req,value="",title=""):
 
     count = 0
-    
+    user = ""
     
 
     if(title == "delete"):
@@ -401,11 +399,12 @@ def cart_view(req,value="",title=""):
             Cart.objects.get_or_create(title=x["name"] , user = req.user , average_score = x["rating"] , rating_count = x["ratings_count"]  ,genres=x["genres"] ,user_rating = x["rating"] ,  
             release_date = x["released"] , slug = x["slug"] ,page_no= page_num_details ,metacritic= x["metacritic"],game_image= x["background_image"])[0]
     
-    
+    if auth(req):
+        user = User_Info.objects.filter(user = req.user).get()
 
    
 
-    return render(req,"cart.html",{'data' : Cart.objects.filter(user = req.user),'count':count})
+    return render(req,"cart.html",{'data' : Cart.objects.filter(user = req.user),'count':count , "user_profile" : user})
     
 def landing(req):
     week_from_date = datetime.now()

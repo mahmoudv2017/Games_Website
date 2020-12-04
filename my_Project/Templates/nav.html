@@ -7,7 +7,7 @@
     
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" />
@@ -15,9 +15,12 @@
     <link rel="stylesheet" type="text/css" href= "{% static 'star-rating-svg.css' %}">
     <script src="{% static 'all.js' %}"></script>
     <link rel="stylesheet" href= "{% static 'main.css' %}">
-    <link rel="stylesheet" href= "{% static 'game_details.css' %}">
-    <link rel="stylesheet" href= "{% static 'cart.css' %}">
+    
     <link rel="stylesheet" href= "{% static 'swiper.css' %}">
+
+    {% block style %}
+
+    {% endblock style %}
     {% comment %} <link rel="stylesheet" href= "{% static 'emoji.css' %}"> {% endcomment %}
     
 
@@ -28,6 +31,7 @@
   
 </head>
 <body  >  
+
 
 
  <div class="loginner">
@@ -63,16 +67,16 @@
             
             <hr color="white">
             {% if user_profile.profile_image %}
-            <p class="nav-link" >{{ user.username }}</p>
-            <hr color="white">
-            
-            <a class="nav-link" href="/logout">logout</a>
-            <a class="nav-link" style="color:grey;" href="/cart/id=home">Cart</a>
+                <p class="nav-link" >{{ user.username }}</p>
+                <hr color="white">
+                
+                <a class="nav-link" href="/logout">logout</a>
+                <a class="nav-link" style="color:grey;" href="/cart/id=home">Cart</a>
             
             {% else %}
-            <a class="nav-link" href="/register">Register</a>
-            <hr color="white">
-            <a class="nav-link" href="/login">login</a>
+                <a class="nav-link" href="/register">Register</a>
+                <hr color="white">
+                <a class="nav-link" href="/login">login</a>
             {% endif %}
 
 
@@ -84,9 +88,9 @@
            
             {% if user.is_authenticated %}
                 <a class="nav-link" href="/cart">Cart</a>
-                  {% if user_profile.profile_image %}
+                {% if user_profile.profile_image %}
                   
-                <span class=" navbar-nav ml-auto" onclick="openlister('.lister2')" > <img class="nav-link" style="border-radius: 50%; height: 50px; width: 50px;" src="/media/{{ user_profile.profile_image }} "  > </span>
+                    <span class=" navbar-nav ml-auto" onclick="openlister('.lister2')" > <img class="nav-link" style="border-radius: 50%; height: 50px; width: 50px;" src="/media/{{ user_profile.profile_image }} "  > </span>
                
                 {% else %}
 
@@ -302,7 +306,7 @@
 
 
 
-
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script src="{% static 'jquery.star-rating-svg.js' %}"></script>
 
 <script src="{% static 'nav.js' %}"></script>

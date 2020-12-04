@@ -7,6 +7,26 @@
     text-decoration: none;
 }
 
+.main .fa-star{
+    color: gold;
+    font-size: 28px;
+}
+
+.ratings_count{
+    
+    text-align: center;
+    font-size: 19px;
+}
+
+.api_rating{
+    position: relative;
+    display: inline;
+    font-size: 29px;
+    font-weight: 700;
+    color: gold;
+}
+
+
 .swiper{
 
     

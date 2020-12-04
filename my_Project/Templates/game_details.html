@@ -3,6 +3,13 @@
 {% extends 'nav.html' %}
 {% load custom_tagger %}
 {% load static %}
+
+
+{% block style %}
+    <link rel="stylesheet" href= "{% static 'game_details.css' %}">
+{% endblock style %}
+
+
 {% block body_block %}
 
 
@@ -219,6 +226,7 @@
                         <img src="/media/profile_image/alt.png" style="height: 50px; width: 50px; border-radius: 50%;" >
                     {% endif %}
                 </div>
+
                 <div  class="form-group">
                     <input id="actual_comment" type="text" required name="comment" style=" width: 100%;  font-family: cursive; font-size: larger;" class="form-control" placeholder="Type a Comment" >
                     <p style="height: 1%;"></p>
@@ -389,7 +397,7 @@
                                     <form class="replierr"  method='POST' style=' margin-bottom: 5%; width: 100%;' >
                                         {% csrf_token %}
                             
-                                        <input type='text' class="actual_reply" name='comment' style=' margin-bottom: 1%; width: 100%;' class='form-control' placeholder='Type a Comment' id='id_comment' required >
+                                        <input type='text' class="actual_reply" name='comment' style=' margin-bottom: 1%; width: 100%;' class='form-control' placeholder='Type a Comment'  required >
                                         
                                         <button onclick="reply_submission('{{x.user.username}}' , '{{x.id}}' , '{{forloop.counter}}')" class='btn btn-primary' style='float: right;' >Save</button>
                                         <a  class='btn btn-primary' onclick="add_reply({{forloop.counter}})" style=' margin-right: 1%; float: right;' >Cancel</a>
@@ -435,7 +443,7 @@
                                 <form  action="/id={{ data.name }}/EditComment/{{ x.id }}/reply=false" method="POST" style=" margin-bottom: 5%;" >
                                 {% csrf_token %}
                         
-                                <input type='text'  name='comment' style=' width: 100%;' class='form-control' placeholder="Type a Comment" id= "id_comment " required value="{{x.comment}}">
+                                <input type='text'  name='comment' style=' width: 100%;' class='form-control' placeholder="Type a Comment" required value="{{x.comment}}">
                         
                                 <button  class='btn btn-primary' style='float: right;' >Save</button>
                                 <a  class='btn btn-primary' onclick=edit_comment({{forloop.counter}}) style=' margin-right: 1%; float: right;' >Cancel</a>
@@ -461,102 +469,9 @@
         
 
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-
-<script>
-
-    name = document.querySelector('.game-text h1').innerText
-    if(name.includes("/")){
-        name = $(".game-text h1")[0].attributes.role.nodeValue
-    }
-
-   function show_my_rating(){
-       current_ratting =  $('.my-rating').starRating('getRating')
-       console.log(current_ratting)
-   }
-
-    f = false
-    t = false
-    function small_menu(index){
-        console.log("dropdown position")
-        document.querySelectorAll(".dropdown-menu")[index-1].classList.toggle("show")
-    }
-
-   
-
- 
-    $('#add_me').on("submit",function(e){
-      e.preventDefault()
-
-      if(name.includes("/")){
-        name = $(".game-text h1")[0].attributes.role.nodeValue
-      }
-        
-      $.ajax({
-            type : 'POST',
-            url :  '/id='+name+'/AddComment/NewComment/reply=false',
-            data : {
-                comment : $('#actual_comment').val(),
-                csrfmiddlewaretoken : $('input[name = csrfmiddlewaretoken]').val()
-            },
-            success:function(data){
-               
-                console.log(data)
-                $(data).find(".comments");
-
-                $("body" ).html(data)
-            }
-            
-            
-        })
-        document.querySelector('#add_me').innerHTML = '<div></div><div style="background: rgba(0,0,0,0.0); width: 100%;" class="loadingio-spinner-bean-eater-jant8q2tnu"><div style="left: 50%;" class="ldio-ju6mpey5stg">'
-            +'<div><div></div><div></div><div></div></div><div><div></div><div></div><div></div></div>'
-            +'</div></div>'
-         
-            
-
-    })
 
 
 
-
-
-
-
-
-    function reply_submission(username , comment_id ,index){
-
-
-      
-        
-
-      $.ajax({
-
-        type : 'POST',
-        url :  '/id='+name+'/EditComment/'+comment_id+'/reply='+username,
-        data : {
-            comment : document.querySelectorAll('.actual_reply')[index-1].value,
-            csrfmiddlewaretoken : $('input[name = csrfmiddlewaretoken]').val()
-        },
-        success:function(data){
-            
-            console.log(data)
-
-            console.log('sucess')
-            $("body" ).html(data)
-
-        }
-            
-            
-        })
-
-        document.querySelectorAll(".replierr")[index-1].innerHTML = "<h1>LOADING....<h1>"
-        
-
-   }
-   
-
-</script>
         
 
 
@@ -565,8 +480,8 @@
 
 {% block script %}
 
-    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    
     <script src="{% static 'my_jquery.js' %}"></script>
     <script src="{% static 'rating.min.js' %}"></script>
 

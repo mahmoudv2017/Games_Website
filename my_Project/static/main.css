@@ -127,7 +127,12 @@ body{
 }
 
 
-
+@media(max-width:950px) {
+    .col-lg-3{
+       min-width: 70% ;
+    }
+    
+}
 @media(max-width:1346px) {
     .col-lg-3{
        min-width: 50%;
@@ -137,8 +142,11 @@ body{
 
 @media (min-width:1338px) and (max-width:1505px){
     .col-lg-3{
-        min-width: 30%;
+        min-width: 33%;
+       
     }
+
+
    
 }
  @media (min-width: 1620px) {
@@ -170,6 +178,15 @@ body{
     transition: .5s all;
 }
 
+.card-text-area{
+
+    height: 100%;
+    z-index: 10000000;
+    background-color: rgb(180, 179, 179);
+    top: -17px;
+    position: relative;
+
+}
 .card-text-area h2{
     margin: 4% auto 8% auto; 
     
@@ -394,6 +411,10 @@ body{
 
 .image_of_card{
     z-index: 2;
+    display: flex;
+    position: relative;
+    
+    padding-bottom: 4.2%;
     
     transition: .5s all; 
 }
@@ -635,12 +656,18 @@ color: chocolate;
 }
 
 .fideo{
-    width: 108%;
+   
     position: relative;
-    overflow-x: hidden;
-    display: none;
-    left: -0.5px;
-   /* height: 100%;*/
+  
+    object-fit: cover !important; 
+    position: absolute;  
+    top: 0; 
+    left: 0; 
+    width: 100%;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+ 
+    height: 100%;
     z-index: 2;
     transition: all 0.5s ease 0s;
     opacity: 0;

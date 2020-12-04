@@ -2,67 +2,65 @@
 {% extends 'nav.html' %}
 {% load static %}
 {% load custom_tagger %}
+
+{% block style %}
+    <link rel="stylesheet" href= "{% static 'cart.css' %}">
+{% endblock style %}
+
 {% block body_block %}
-<div style=" padding-bottom: 12.5%; margin-top:5%;  width:max-content ">
-    {% if not data  %}
-        <h1 style="text-align: center; width: 540%;">Your Cart Is Empty</h1>
-    
-    {% endif %}
-    {% for x in data %}
-
-        <div class="rower" style="display: grid; grid-template-columns: 400px 80%; transition: 1s all; position: relative; left: 0; margin-left: 23%;">
-            <div class="column_1">
-                {% if  x.game_image  == None %}
-                    <img src="/media/last.jpg" style="width:100%; height: 254px; border-radius: 15px; " alt="">
-                {% else %}
-                    <img src="{{ x.game_image }}" style="width:100%; height: 254px; border-radius: 15px; " alt="">
-                {% endif %}
-              
-                <br><br>
-                <hr style="color: black;" width="400%">
-            </div>
-    
-            <div class="column_2" style="margin-left:5%;">
-                
-                <div style="display: grid; grid-template-columns: 80% 20%;">
-                    <a onclick="take_me_details('cart' , '{{x.slug}}' , '{{forloop.counter}}')">  <h1 style="color:white; margin:0; cursor: pointer;"  class="title">{{x.title}}</h1></a>
-                    <a style="margin-top: 14%; width: 40px; height: 40px;" onclick="remove_rec('{{forloop.counter}}' , '{{x.slug}}')" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a>
-
-                </div>
-                
-
-                <div class="main" style="width: 17%; border: none !important;" >
-                    <i class="fas fa-star"></i>
-                    <div class="api_rating" >
-                        {{x.average_score|floater}}
-                    </div>
-                    <div class="ratings_count">
-                        {{x.rating_count}}
-                    </div>
-
-                </div>
-               
-                <p style="display: inline; margin-right: 9%; "> <span style=" font-weight: 700; font-size: 20px;"> Release Date :</span> <span style="font-size: 16px; font-family: cursive;color: white;">{{x.release_date}}</span></p>
-                 <p style="display: inline; font-weight: 700; font-size: 20px;">Genres : </p>
-                 {% for x in x.genres %}
-                    <span style="display:inline; font-size: 16px; font-family: cursive;color: white;">{{x.name}}</span>
-                {% endfor %}
-                <p style=" margin-right: 9%; "> <span style=" font-weight: 700; font-size: 20px;"> Metacritic :</span> <span style="font-size: 16px; font-family: cursive;color: white;">{{x.metacritic}}</span></p>
-
-
-              
-               
-                <br>
-                <!-- <a style="position: relative;  bottom: 70%; right: -88%;" onclick="remove_rec('{{forloop.counter}}' , '{{x.slug}}')" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a> -->
-
-               
-            </div>
-        </div>
-       
+    <div style=" padding-bottom: 12.5%; margin-top:5%;  width:max-content ">
+        {% if not data  %}
+            <h1 style="text-align: center; width: 540%;">Your Cart Is Empty</h1>
         
-       
+        {% endif %}
+        {% for x in data %}
 
-    {% endfor %}
+            <div class="rower" style="display: grid; grid-template-columns: 400px 80%; transition: 1s all; position: relative; left: 0; margin-left: 23%;">
+                <div class="column_1">
+                    {% if  x.game_image  == None %}
+                        <img src="/media/last.jpg" style="width:100%; height: 254px; border-radius: 15px; " alt="">
+                    {% else %}
+                        <img src="{{ x.game_image }}" style="width:100%; height: 254px; border-radius: 15px; " alt="">
+                    {% endif %}
+                
+                    <br><br>
+                    <hr style="color: black;" width="400%">
+                </div>
+        
+                <div class="column_2" style="margin-left:5%;">
+                    
+                    <div style="display: grid; grid-template-columns: 80% 20%;">
+                        <a onclick="take_me_details('cart' , '{{x.slug}}' , '{{forloop.counter}}')">  <h1 style="color:white; margin:0; cursor: pointer;"  class="title">{{x.title}}</h1></a>
+                        <a style="margin-top: 14%; width: 40px; height: 40px;" onclick="remove_rec('{{forloop.counter}}' , '{{x.slug}}')" class="btn btn-danger" ><i class="fas fa-trash-alt"></i></a>
+
+                    </div>
+                    
+
+                    <div class="main" style="width: 17%; border: none !important;" >
+                        <i class="fas fa-star"></i>
+                        <div class="api_rating" >
+                            {{x.average_score|floater}}
+                        </div>
+                        <div class="ratings_count">
+                            {{x.rating_count}}
+                        </div>
+
+                    </div>
+                
+                    <p style="display: inline; margin-right: 9%; "> <span style=" font-weight: 700; font-size: 20px;"> Release Date :</span> <span style="font-size: 16px; font-family: cursive;color: white;">{{x.release_date}}</span></p>
+                    <p style="display: inline; font-weight: 700; font-size: 20px;">Genres : </p>
+                    {% for x in x.genres %}
+                        <span style="display:inline; font-size: 16px; font-family: cursive;color: white;">{{x.name}}</span>
+                    {% endfor %}
+                    <p style=" margin-right: 9%; "> <span style=" font-weight: 700; font-size: 20px;"> Metacritic :</span> <span style="font-size: 16px; font-family: cursive;color: white;">{{x.metacritic}}</span></p>
+                    <br>
+                </div>
+            </div>
+        
+            
+        
+
+        {% endfor %}
 
   
  
@@ -110,7 +108,7 @@
             
     </script>
    
-</div>
+    </div>
 {% endblock body_block %}
 
 {% block script %}

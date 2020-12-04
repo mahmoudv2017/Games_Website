@@ -46,13 +46,13 @@
 function openNav() {
     document.querySelector(".spin_me").style.opacity = 0
     document.getElementById("mySidenav").style.width = " 176px";
-    document.querySelectorAll('path').forEach(item => {
+    document.querySelectorAll('.sidenav path').forEach(item => {
         item.style.display = 'none'
     })
 
     setTimeout(function(){
  
-        document.querySelectorAll('path').forEach(item => {
+        document.querySelectorAll('.sidenav path').forEach(item => {
             item.style.display = 'block'
         })
     },140)
@@ -72,7 +72,7 @@ document.querySelector(".spin_me").style.opacity = 1
 
 document.getElementById("mySidenav").style.width = "0";
 
-document.querySelectorAll('path').forEach(item => {
+document.querySelectorAll('.sidenav path').forEach(item => {
     item.style.display = 'none'
 })
 

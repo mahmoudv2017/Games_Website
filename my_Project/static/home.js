@@ -9,7 +9,8 @@ function added(index){
     document.querySelectorAll('.adder_of_cart')[index-1].classList.toggle("added")
   
 }
-function take_me_details(type , slug , index){
+function take_me_details(type , slug , index ){
+   
     game_name = ""
 
     if(type == "home"){
@@ -116,11 +117,13 @@ function order_me(){
 
 
 
-function play_me(index,value){
-
+function play_me(value ){
+    
+    console.log(value)
     var nodes = Array.prototype.slice.call( document.getElementsByClassName('image_of_card'));
   
-    index = nodes.indexOf( value )
+    index = value -1
+    console.log({index})
     
     document.querySelectorAll(".fideo")[index].style.display = "block"
     setTimeout(function(){

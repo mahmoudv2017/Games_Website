@@ -178,15 +178,6 @@ body{
     transition: .5s all;
 }
 
-.card-text-area{
-
-    height: 100%;
-    z-index: 10000000;
-    background-color: rgb(180, 179, 179);
-    top: -17px;
-    position: relative;
-
-}
 .card-text-area h2{
     margin: 4% auto 8% auto; 
     
@@ -414,7 +405,7 @@ body{
     display: flex;
     position: relative;
     
-    padding-bottom: 4.2%;
+  
     
     transition: .5s all; 
 }

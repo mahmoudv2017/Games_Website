@@ -9,7 +9,7 @@
     width: 3%;
     text-align: center;
     opacity: 1;
-    background: rgpa(1,1,1,0.3);
+    border-radius: 16px;
     background-color: rgb(42 42 43 / 32%);
     color: whitesmoke;
 }

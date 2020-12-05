@@ -22,22 +22,13 @@
 }
 
 .game-text .my-rating{
-    /* position: absolute;
-    border-radius: 14px;
-    width: 7%;
-    display: none;
-    height: 3%;
-    background: gray;
-    top: 25%; */
-
-
-
     position: relative;
     border-radius: 14px;
     width: 7%;
     display: none;
-    /* height: 100%; */
     width: 100%;
+     
+    transform: scale(1.5);
     height: 52%;
     background: gray;
     top: -65%;
@@ -56,9 +47,11 @@
 }
 
 @media(max-width:1400px) {
-    
-    .gallery , .game-content{
+    .game-content{
         display: block !important;
+    }
+    .gallery {
+        grid-template-columns: repeat(2,500px);
     }
 
     video{
@@ -66,4 +59,28 @@
     }
 }
 
+@media(max-width:1700px) {
+    .game-content{
+        display: block !important;
+    }
+    .gallery {
+        grid-template-columns: repeat(2,500px);
+    }
+
+    video{
+        width: 100% !important;
+    }
+}
+
+@media(max-width:1130px) {
+  
+    .gallery {
+        grid-template-columns: repeat(1,500px);
+        justify-content: center;
+    }
+
+    video{
+        width: 100% !important;
+    }
+}
 

@@ -54,10 +54,18 @@
             
                 </div>
 
-                <div class="user_score" style="display: grid; grid-template-columns: min-content 5%; margin-left: 4%;" >
+                 {% if user.is_authenticated %}
+                 <div class="user_score" style="display: flex;  margin-left: 4%;" >
                     {% include "ratingg.html" %}
             
                 </div>
+                 {% else %}
+                <div class="user_score" style="display: flex;  padding-top: 10%; margin-left: 4%;" >
+                    {% include "ratingg.html" %}
+            
+                </div>
+                {% endif %}
+                
             
             </div>
 

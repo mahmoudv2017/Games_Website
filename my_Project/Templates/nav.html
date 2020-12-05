@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" />
 
     <link rel="stylesheet" type="text/css" href= "{% static 'star-rating-svg.css' %}">
-    <script src="{% static 'all.js' %}"></script>
+    
+    
     <link rel="stylesheet" href= "{% static 'main.css' %}">
     
     <link rel="stylesheet" href= "{% static 'swiper.css' %}">
@@ -127,7 +128,7 @@
 </nav>
 
 <nav class="navbar navbar-expand-lg navbar-dark second " >
-    <span class="spin_me" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
+    <span class="spin_me" onclick="openNav()">&#9776; </span>
     <form style="position: sticky; margin: 0 auto; width: 60%;"  class=" search_of_form form-inline my-2 my-lg-0 target" method="GET">
         <input style="width: 92%; right: 0%;  position: relative;" class="form-control  search_text"  type="search" aria-label="Search" autocomplete="on">
         <button  class=" btn btn-success " style="position: absolute; right: 0%;" type="submit">Search</button>
@@ -142,7 +143,7 @@
 
 <div class="parent" >
         
-    <div id="mySidenav" style="z-index: 200;" class="sidenav">
+    <div id="mySidenav" style="z-index: 2000;" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <div>
 
@@ -309,7 +310,7 @@
 
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script src="{% static 'jquery.star-rating-svg.js' %}"></script>
-
+<script src="{% static 'all.js' %}"></script>
 <script src="{% static 'nav.js' %}"></script>
 
 

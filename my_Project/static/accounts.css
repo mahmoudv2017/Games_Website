@@ -1,0 +1,70 @@
+.reigster_content{
+    background-size: cover;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height:100%;
+    position: absolute;
+    overflow: hidden;
+    z-index: 4;
+}
+
+.second_layer{
+    background-color: black;
+    position: absolute;
+    opacity: .7;
+    top: 0;
+    left: 0;
+    /* padding-left: 41%; */
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    z-index: 5;
+}
+
+.upper-zone{
+    transform: scale(1.2);  
+    left: 10%; 
+    position: fixed; 
+    z-index: 6; 
+    width: 100%;
+    margin-top: 8%;
+}
+
+.upper-zone input{
+    background-color: #00000052;
+    color: white;
+    border-radius: 14px;
+    width: 70%;
+    height: 50px;
+    margin-bottom: 5%;
+}
+
+.upper-zone button{
+
+    width: 48%;
+    border-radius: 14px;
+    background-color: white;
+    color: black;
+    margin: 0 auto;
+}
+
+.fields{
+    display: flex;
+    flex-flow: column;
+}
+
+.field{
+    display: flex;
+    justify-content: center;
+}
+
+.game-zone{
+    display: grid;
+ 
+    grid-template-columns: 25% 25%;
+    grid-template-rows: max-content;
+    padding-left: 20%;
+   
+  
+} 

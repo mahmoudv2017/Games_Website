@@ -135,14 +135,14 @@
                                 {% endif %}
 
                                     
-                                    {% if x.background_image != null %}
-                                
-                                <div onclick="take_me_details('home' , '{{x.slug}}','{{forloop.counter}}' , event)" onmouseover="play_me( '{{forloop.counter}}')" onmouseout="pause_me({{forloop.counter}})" class="image_of_card" > 
+                                {% if x.background_image != null %}
+                              
+                                    <div onclick="take_me_details('home' , '{{x.slug}}','{{forloop.counter}}' , event)" onmouseover="play_me( '{{forloop.counter}}' , '{{x.clip.clips.320}}' , '{{ x.background_image }}')" onmouseout="pause_me({{forloop.counter}} , '{{x.clip.clips.320}}')" class="image_of_card" > 
                                     {% comment %} <img style="top: 0; left: 0; width: 100%; height: 100%; border-top-left-radius: 15px; border-top-right-radius: 15px;" src="{{ x.background_image }}" > {% endcomment %}
-
+                               
 
                                 {% if x.clip != null %}
-                                    <video class="fideo" src="{{x.clip.clips.320}}" muted ></video>
+                                    <video class="fideo" src="" muted ></video>
                                 {% else %}
                                 {% if x.background_image != null %}
                                     <img style="width: 100%; height: 100%;" class="fideo" src="{{ x.background_image }}"   >

@@ -1,98 +1,79 @@
 <!DOCTYPE html>
 {% extends 'nav.html' %}
+{% load static %}
+
+
+{% block style %}
+    <link rel="stylesheet" href= "{% static 'accounts.css' %}">
+{% endblock style %}
+
 {% block body_block %}
 
 
-<div style="overflow: hidden;">
+<div >
 
 
 
-<div style="    background-color: black;
-position: absolute;
-width: 100%;
-opacity: .7;
-top: 6%;
-left: 0%;
-/* padding-left: 41%; */
-height: 110%;
-background-size: cover;
-z-index: 5;
+    <div class="second_layer" ></div> 
 
-">
-
-</div> 
+    <div class="reigster_content" style="background-image: url({{image.background_image}});"></div>
 
 
 
-
-
-<div class="reigster_content" style=" height: 110%;
-background-image: url({{image.background_image}});
-background-size: cover;
- top: 6%; 
-left: 0%;
-width: 100%;
-position: absolute;
-overflow: hidden;
-z-index: 4;"
-
->
-</div>
-
-<div class="upper-zone" style="transform: scale(1.2);  left: 24%; position: absolute; z-index: 6; margin-top: 8%;">
-    
-        <form method = "POST" class="game-zone" autocomplete="off" >
-    
-             <h1 style= " text-align: center; color: #fff; grid-column-start: 1; grid-column-end: 4; width: 30.5%; margin-bottom: 3%;  padding-right: 4%;" class="py-1" >Log In</h1> 
-          
-               {% if msg %}
-                    <p style="    
-    height: min-content;
-    position: absolute;
-    top: 18%;
-    text-align: center;
-    left: -2%;
-    font-size: 20px;
-    color: red;">{{msg}}</p>
-                {% endif %} 
-            {% csrf_token %}
-
-
-             
-             
+    <div class="upper-zone" >
+        
+            <form method = "POST" class="game-zone" autocomplete="off" >
+        
+                <h1 style= " text-align: center; color: #fff; grid-column-start: 1; grid-column-end: 4; width: 30.5%; margin-bottom: 3%;  padding-right: 4%;" class="py-1" >Log In</h1> 
             
-            <div class="fields" style="margin-top: 2%;" >
-                <!-- <h1 style="color: white; margin-bottom: 3%; position: absolute;">Sign Up</h1> -->
-                <div class="field" >
-                    <input type="text" name="username" >
-                    <br><br>
-                   
-                </div>
-                <div  class="field">
-                    <input type="password" name="password" >
-                    <br><br>
-                </div>
-               
-               
-                <button class="btn btn-primary">Log In</button>
-                
-            </div>
-           
-        
-            <div style=" color: white;  width: 100%; ">
-                <h1>Login</h1>
-               
-                
-                <h3>Get Access to many games</h3>
-            </div>
+                {% if msg %}
+                        <p style="    
+                            height: min-content;
+                            position: absolute;
+                            top: 18%;
+                            text-align: center;
+                            left: -2%;
+                            font-size: 20px;
+                            color: red;">{{msg}}</p>
+                    {% endif %} 
+                {% csrf_token %}
 
+
+                
+                
+                
+                <div class="fields" style="margin-top: 2%;" >
+                    <!-- <h1 style="color: white; margin-bottom: 3%; position: absolute;">Sign Up</h1> -->
+                    <div class="field" >
+                        <input type="text" name="username" >
+                        <br><br>
+                    
+                    </div>
+                    <div  class="field">
+                        <input type="password" name="password" >
+                        <br><br>
+                    </div>
+                
+                
+                    <button class="btn btn-primary">Log In</button>
+                    
+                </div>
             
-        
-        
-        
-        </form>
-  
-</div>
+            
+                <div style=" color: white;  width: 100%; ">
+                    <h1>Login</h1>
+                
+                    
+                    <h3>Get Access to many games</h3>
+                </div>
+
+                
+            
+            
+            
+            </form>
+    
+    </div>
 
 
 </div>

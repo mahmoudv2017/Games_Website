@@ -224,7 +224,7 @@ function reset_user_star(){
     setTimeout(function(){
         document.querySelector('.user_star').addEventListener("mouseenter" , function(){
      
-            document.querySelector('.user_score .my-rating').style.display = "block"
+            document.querySelector('.user_score .my-rating').style.display = "flex"
         })
 
         if(choosen_one > 0){

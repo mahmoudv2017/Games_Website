@@ -117,28 +117,44 @@ function order_me(){
 
 
 
-function play_me(value ){
+function play_me(value , vid_url , image_url ){
     
     console.log(value)
     var nodes = Array.prototype.slice.call( document.getElementsByClassName('image_of_card'));
   
     index = value -1
-    console.log({index})
+  
     
     document.querySelectorAll(".fideo")[index].style.display = "block"
-    setTimeout(function(){
+    document.querySelectorAll(".fideo")[index].attributes.src.value = vid_url != "" ? vid_url : image_url
+    
+
+         setTimeout(function(){
         document.querySelectorAll(".fideo")[index].style.opacity = "1"
-        document.querySelectorAll(".fideo")[index].play()
+        if(vid_url == ""){
+            return
+        }else{
+            document.querySelectorAll(".fideo")[index].play()
+        }
     },.00001)
+
+    
+   
      
 }
 
-function pause_me(index){
+function pause_me(index , vid_url){
     index = index -1
 
      document.querySelectorAll(".fideo")[index].style.opacity = "0"
-     document.querySelectorAll(".fideo")[index].pause()
-     document.querySelectorAll(".fideo")[index].currentTime = 0;
+     
+     if(vid_url == ""){
+        return
+    }else{
+        document.querySelectorAll(".fideo")[index].pause()
+        document.querySelectorAll(".fideo")[index].currentTime = 0;
+    }
+     
 }
 
 

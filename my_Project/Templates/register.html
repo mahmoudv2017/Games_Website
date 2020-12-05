@@ -1,40 +1,24 @@
 <!DOCTYPE html>
 {% extends 'nav.html' %}
+{% load static %}
+
+
+{% block style %}
+    <link rel="stylesheet" href= "{% static 'accounts.css' %}">
+{% endblock style %}
+
+
 {% block body_block %}
 
 
-<div style="overflow: hidden;">
+<div>
 
 
-<div style="    background-color: black;
-position: absolute;
-width: 100%;
-opacity: .7;
-top: 6%;
-left: 0%;
-/* padding-left: 41%; */
-height: 110%;
-background-size: cover;
-z-index: 5;
+<div class="second_layer" ></div> 
 
-">
+<div class="reigster_content" style="background-image: url({{image.background_image}});"></div>
 
-</div> 
-
-
-<div class="reigster_content" style=" height: 110%;
-background-image: url({{image.background_image}});
-background-size: cover;
- top: 6%; 
-left: 0%;
-width: 100%;
-position: absolute;
-overflow: hidden;
-z-index: 4;"
-
-></div>
-
-<div class="upper-zone" style="transform: scale(1.2);  left: 24%; position: absolute; z-index: 6; margin-top: 8%;">
+<div class="upper-zone" >
     
         <form method = "POST" class="game-zone" enctype="multipart/form-data" autocomplete="off" >
     
@@ -73,7 +57,7 @@ z-index: 4;"
             </div>
            
         
-            <div style=" color: white;  width: 100%; ">
+            <div style=" color: white;     padding-top: 20%;  width: 100%; ">
                 <h1>Register here</h1>
                 <h3>Get Access to many games</h3>
             </div>

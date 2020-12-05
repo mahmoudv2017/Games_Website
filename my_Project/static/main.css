@@ -3,6 +3,16 @@
     height: 3em;
 }
 
+.spin_me{
+    font-size: 30px;
+    cursor: pointer;
+    width: 3%;
+    text-align: center;
+    opacity: 1;
+    background: rgpa(1,1,1,0.3);
+    background-color: rgb(42 42 43 / 32%);
+    color: whitesmoke;
+}
 
 .second{
     background-color: rgba(0,0,0,0.0);
@@ -12,6 +22,7 @@
 
 .first{
     background-color: #4e4e4e;
+    z-index: 1000;
 }
 
 body{
@@ -361,14 +372,7 @@ body{
 
 
 
- .game-zone{
-    display: grid;
- 
-    grid-template-columns: 80% 364px;
-    grid-template-rows: max-content;
-   
-  
-} 
+
 
  .labels{
 
@@ -377,13 +381,7 @@ body{
     color: white;
     width: 241%;
 }
-.upper-zone button{
 
-    width: 48%;
-    border-radius: 14px;
-    background-color: white;
-    color: black;
-}
 
 .inputt{
     border: none;
@@ -456,25 +454,9 @@ body{
     color: white;
 }
 
-.reigster_content{
-    height: 100%;
-    background-image: url("https://media.rawg.io/media/games/26d/26d4437715bee60138dab4a7c8c59c92.jpg");
-    background-size: cover; 
-    /* top: 40%; */
-    left: 0%;
-    width: 100%;
-    position: absolute;
-    overflow: hidden;
-    z-index: 4;
-}
 
-.upper-zone input{
-    background-color: rgba(0,0,0,.3);
-    border-radius: 14px;
-    width: 50%;
-    height: 50px;
-    color: snow;
-}
+
+
 
 .hide{
     display: none;

@@ -22,13 +22,25 @@
 }
 
 .game-text .my-rating{
-    position: absolute;
+    /* position: absolute;
     border-radius: 14px;
     width: 7%;
     display: none;
     height: 3%;
     background: gray;
-    top: 25%;
+    top: 25%; */
+
+
+
+    position: relative;
+    border-radius: 14px;
+    width: 7%;
+    display: none;
+    /* height: 100%; */
+    width: 100%;
+    height: 52%;
+    background: gray;
+    top: -65%;
 }
 
 .api_rating2{

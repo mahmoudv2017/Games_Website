@@ -45,7 +45,9 @@
 
 function openNav() {
     document.querySelector(".spin_me").style.opacity = 0
-    document.getElementById("mySidenav").style.width = " 176px";
+    document.getElementById("mySidenav").style.width = " 260px";
+    document.getElementById("mySidenav").style.padding = " 16px";
+    document.getElementById("mySidenav").style.paddingTop = " 80px";
     document.querySelectorAll('.sidenav path').forEach(item => {
         item.style.display = 'none'
     })
@@ -67,14 +69,15 @@ function show_side(option){
 }
 
 function closeNav() {
+    console.log("closing Nav")
+    document.querySelector(".spin_me").style.opacity = 1
 
-document.querySelector(".spin_me").style.opacity = 1
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("mySidenav").style.padding = " 0px";
 
-document.getElementById("mySidenav").style.width = "0";
-
-document.querySelectorAll('.sidenav path').forEach(item => {
-    item.style.display = 'none'
-})
+    document.querySelectorAll('.sidenav path').forEach(item => {
+        item.style.display = 'none'
+    })
 
 
 
@@ -90,3 +93,4 @@ function openlister(lister) {
 
 }
 
+document.querySelector(".group2").addEventListener('click' , closeNav)

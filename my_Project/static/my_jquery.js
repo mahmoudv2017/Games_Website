@@ -76,6 +76,7 @@ $('.header').owlCarousel({
 $('.game_pc').owlCarousel({
     loop:true,
     margin:10,
+    nav:true,
     responsive:{
         0:{
             items:1
@@ -88,7 +89,6 @@ $('.game_pc').owlCarousel({
         }
     }
 })
-
 
 
 

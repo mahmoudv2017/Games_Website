@@ -138,34 +138,58 @@
                                 {% if x.background_image != null %}
                               
                                     <div onclick="take_me_details('home' , '{{x.slug}}','{{forloop.counter}}' , event)" onmouseover="play_me( '{{forloop.counter}}' , '{{x.clip.clips.320}}' , '{{ x.background_image }}')" onmouseout="pause_me({{forloop.counter}} , '{{x.clip.clips.320}}')" class="image_of_card" > 
-                                    {% comment %} <img style="top: 0; left: 0; width: 100%; height: 100%; border-top-left-radius: 15px; border-top-right-radius: 15px;" src="{{ x.background_image }}" > {% endcomment %}
                                
 
-                                {% if x.clip != null %}
-                                    <video class="fideo" src="" muted ></video>
-                                {% else %}
-                                {% if x.background_image != null %}
-                                    <img style="width: 100%; height: 100%;" class="fideo" src="{{ x.background_image }}"   >
-                                {% else %}
-                                    <img style="width: 100%; height: 100%;" src = "url(/media/last.jpg)" class="fideo" >
-                                {% endif %}
-                                {% endif %}
+                                        {% if x.clip != null %}
+                                            <video class="fideo" src="" muted onplaying="on_player('{{forloop.counter}}')"></video>
+                                        {% else %}
+                                            {% if x.background_image != null %}
+                                                <img style="width: 100%; height: 100%;" class="fideo" src="{{ x.background_image }}"   >
+                                            {% else %}
+                                                <img style="width: 100%; height: 100%;" src = "url(/media/last.jpg)" class="fideo" >
+                                            {% endif %}
+                                        {% endif %}
 
-                                <div class="image_of_card"   style="background: url({{ x.background_image }});
+                                        <div class="image_of_card"   style="background: url({{ x.background_image }});
 
-                                        background-size: cover; 
-                                      
-                                        top: 0; 
-                                        left: 0; 
-                                        width: 100%;
-                                        height:100%;
-                                        z-index:-1;
-                                        grid-area: image;
-                                        border-top-right-radius: 15px; 
-                                        border-top-left-radius: 15px;">
-                                    </div> 
+                                            background-size: cover; 
+                                            top: 0; 
+                                            left: 0; 
+                                            width: 100%;
+                                            height:100%;
+                                            z-index:-1;
+                                            grid-area: image;
+                                            border-top-right-radius: 15px; 
+                                            border-top-left-radius: 15px;">
+                                        </div> 
+                                        {% comment %} third layer loading spinner {% endcomment %}
 
-                                </div> 
+                                        <div class="loading_layer" style=" 
+                                            background: #000000b3;
+                                            background-size: cover; 
+                                            display: none;
+                                            position: absolute;
+                                            top: 0; 
+                                            left: 0; 
+                                            width: 100%;
+                                            height:100%;
+                                            z-index:-1;
+                                            grid-area: image;
+                                            border-top-right-radius: 15px; 
+                                            border-top-left-radius: 15px;">
+
+                                            <div class="lds-ring" style="align-self: center; left: 40%;"><div></div><div></div><div></div><div></div></div>
+
+                                        </div>
+
+
+
+
+
+
+
+
+                                     </div> 
 
                                 {% else %}
                                     <div class="image_of_card"   style="background: url(/media/last.jpg);

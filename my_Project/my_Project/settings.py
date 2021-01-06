@@ -41,10 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',            # add this
+    'rest_framework',         # add this
     'my_app'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',    # add this
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -133,4 +136,8 @@ MEDIA_ROOT = media_dir
 
 STATICFILES_DIRS = [
     static_dir
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'https://localhost:3000'
 ]

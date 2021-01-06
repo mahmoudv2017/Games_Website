@@ -12,6 +12,8 @@ import random
 from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
+from graphene import ObjectType, String, Schema
+
 
 
 falgger = True
@@ -263,8 +265,9 @@ def home(req , value = "null" , page_num = "1?" , search_term = "" , order="noth
     rendering_data['type']  = value
 
  
-
+    print('sssssssss')
     return render(req,'home.html' , rendering_data)
+    #return HttpResponse("sdasda")
 
     
    
@@ -422,6 +425,11 @@ def landing(req):
         dic["user_profile"] = User_Info.objects.filter(user = req.user).get()
 
     return render(req,"landing.html",dic)
+
+
+
+
+
 
 def settings(req):
 

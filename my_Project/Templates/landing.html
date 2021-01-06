@@ -67,6 +67,8 @@
         <hr>
         <br>
         <h1 class="headd">MOST ANTCIPATED</h1>
+        <div>
+        </div>
         <div class="owl-carousel game_pc owl-theme" style="width: 96%;">
     
             {%for x in most_anti_data%}
@@ -85,7 +87,9 @@
                
             {%endfor%}
             
+            
         </div>
+       
 
 
         <br>
@@ -178,5 +182,4 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="{% static 'my_jquery.js' %}"></script>
-    <script src="{% static 'landing.js' %}"></script>
 {% endblock script %}

@@ -115,6 +115,7 @@ function order_me(){
     }
 }
 
+var index_of_video = null
 
 
 function play_me(value , vid_url , image_url ){
@@ -123,30 +124,67 @@ function play_me(value , vid_url , image_url ){
     var nodes = Array.prototype.slice.call( document.getElementsByClassName('image_of_card'));
   
     index = value -1
+    index_of_video = index
+    //paused = document.querySelectorAll(".fideo")[index].paused
   
-    
+    document.querySelectorAll(".loading_layer")[index].style.display = "flex"
     document.querySelectorAll(".fideo")[index].style.display = "block"
     document.querySelectorAll(".fideo")[index].attributes.src.value = vid_url != "" ? vid_url : image_url
     
 
-         setTimeout(function(){
+    setTimeout(function(){
+        
         document.querySelectorAll(".fideo")[index].style.opacity = "1"
         if(vid_url == ""){
             return
         }else{
-            document.querySelectorAll(".fideo")[index].play()
+          //  document.querySelectorAll(".loading_layer")[index].style.display = "none"
+           document.querySelectorAll(".fideo")[index].play()
+            
+      
+        //    var intervalid =  setInterval(function(){
+        //         if(document.querySelectorAll(".fideo")[index].currentTime > 0.1){
+        //             document.querySelectorAll(".loading_layer")[index].style.display = "none"
+        //             clearInterval(intervalid)
+        //         }
+        //     } , 50)
+           
+            
+            
+           
         }
-    },.00001)
+
+        
+    },.0001)
+
 
     
+
+   
    
      
 }
+
+
+function on_player(index){
+    console.log('on player gere')
+    var cur = index -1 
+    document.querySelectorAll('.loading_layer')[cur].style.display = "none"
+}
+
+// if(index_of_video != null){
+//     if(!document.querySelectorAll(".fideo")[index_of_video].paused){
+//         document.querySelectorAll(".loading_layer")[index_of_video].style.display = "none"
+//     }
+// }
+
 
 function pause_me(index , vid_url){
     index = index -1
 
      document.querySelectorAll(".fideo")[index].style.opacity = "0"
+     document.querySelectorAll(".fideo")[index].attributes.src.value = null
+     document.querySelectorAll(".loading_layer")[index].style.display = "none"
      
      if(vid_url == ""){
         return
@@ -154,6 +192,8 @@ function pause_me(index , vid_url){
         document.querySelectorAll(".fideo")[index].pause()
         document.querySelectorAll(".fideo")[index].currentTime = 0;
     }
+
+    
      
 }
 
@@ -172,6 +212,16 @@ function go_details(slug){
 
 }
 
+
+
+// while (true){
+//     if(index_of_video != null){
+//         if(!document.querySelectorAll(".fideo")[index_of_video].paused){
+//             document.querySelectorAll(".loading_layer")[index_of_video].style.display = "none"
+//             break
+//         }
+//     }
+// }
 // links.forEach(function(x,i){
 //     x.addEventListener("click",function(){
         
